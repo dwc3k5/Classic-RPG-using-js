@@ -31,6 +31,7 @@ var rogInt;
 
 /*en3--------------------------------------------------------------------------*/
 var en0CurrentHp;
+console.log(en0CurrentHp);
 var en0MaxHp;
 var en0CurrentMp;
 var en0MaxMp;
@@ -59,11 +60,11 @@ var Str;
 var Dex;
 var Int;
 
+/*combat-----------------------------------------------------------------------*/
 
+var enemies = ["assets/images/bandit.jpg", "assets/images/banditLeader.jpg", "assets/images/wolf.jpg"];
+document.getElementById("ventureForth").onclick = function enemyGen(){
 /*EnemyGenerator---------------------------------------------------------------*/
-/*firstEnemy*/
-var enemies = ["assets/images/bandit.jpg", "assets/images/banditLeader.jpg"];
-document.getElementById("ventureForth").onclick = function(){
 /*firstEnemy*/
   var selector0 = Math.floor(Math.random()*(enemies.length));
   document.getElementById("enemyImage0").src = enemies[selector0];
@@ -71,7 +72,7 @@ document.getElementById("ventureForth").onclick = function(){
   console.log(enemies[0]);
   if(enemies[selector0] === enemies[0]){
     var en0MaxHp = 30;
-    var en0CurrentHp = en0MaxHp;
+    var en0CurrentHp = 30;
     var en0MaxMp = 10;
     var en0CurrentMp = en0MaxMp;
     document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
@@ -79,9 +80,18 @@ document.getElementById("ventureForth").onclick = function(){
     document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
     document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
   }else if(enemies[selector0] === enemies[1]){
-    var en0MaxHp = 50;
-    var en0CurrentHp = en0MaxHp;
-    var en0MaxMp = 10;
+     var en0MaxHp = 50;
+     var en0CurrentHp = 50;
+     var en0MaxMp = 10;
+     var en0CurrentMp = en0MaxMp;
+    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
+    document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
+    document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
+    document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
+  }else if(enemies[selector0] === enemies[2]){
+    var en0MaxHp = 20;
+    var en0CurrentHp = 20;
+    var en0MaxMp = 5;
     var en0CurrentMp = en0MaxMp;
     document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
     document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
@@ -110,6 +120,15 @@ document.getElementById("ventureForth").onclick = function(){
     document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
     document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
     document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
+  }else if( enemies[selector1] === enemies[2]){
+    var en1MaxHp = 20;
+    var en1CurrentHp = en1MaxHp;
+    var en1MaxMp = 5;
+    var en1CurrentMp = en1MaxMp;
+    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
+    document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
+    document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
+    document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
   }
 
 /*thirdEnemy*/
@@ -133,7 +152,86 @@ document.getElementById("ventureForth").onclick = function(){
     document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
     document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
     document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
+  }else if(enemies[selector2]=== enemies[2]){
+    var en2MaxHp = 20;
+    var en2CurrentHp = en2MaxHp;
+    var en2MaxMp = 5;
+    var en2CurrentMp = en2MaxMp;
+    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
+    document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
+    document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
+    document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
   }
+
+/*normal Attack----------------------------------------------------------------*/
+var normal = "normalAtk";
+var fast = "fastAtk";
+var heavy = "heavyAtk";
+  document.getElementById("normalAtk").onclick = function(){
+    var atkConfirm = Math.floor(Math.random()*(100)+1);
+    console.log(atkConfirm);
+    if(atkConfirm <= 15){
+      console.log("miss");
+    }else if(atkConfirm >= 95){
+      console.log("critical!");
+      var normalAtkCrit = Math.floor(Math.random()*(15)+1);
+      var newHp = (en0CurrentHp - normalAtkCrit);
+      en0CurrentHp = newHp;
+      document.getElementById("en0CurrentHp").innerHTML = newHp;
+    }else{
+      console.log("normalDamage");
+      var normalAtk = Math.floor(Math.random()*(10)+1);
+      var newHp = (en0CurrentHp - normalAtk);
+      en0CurrentHp = newHp;
+      console.log("modified health " + newHp);
+      document.getElementById("en0CurrentHp").innerHTML = newHp;
+
+  }};
+
+  document.getElementById("heavyAtk").onclick = function(){
+    var atkConfirm = Math.floor(Math.random()*(100)+1);
+    console.log(atkConfirm);
+    if(atkConfirm <= 25){
+      console.log("miss");
+    }else if(atkConfirm >= 85){
+      console.log("critical!");
+      var normalAtkCrit = Math.floor(Math.random()*(25)+1);
+      var newHp = (en0CurrentHp - normalAtkCrit);
+      en0CurrentHp = newHp;
+      document.getElementById("en0CurrentHp").innerHTML = newHp;
+    }else{
+      console.log("normalDamage");
+      var normalAtk = Math.floor(Math.random()*(15)+1);
+      var newHp = (en0CurrentHp - normalAtk);
+      en0CurrentHp = newHp;
+      console.log("modified health " + newHp);
+      document.getElementById("en0CurrentHp").innerHTML = newHp;
+
+  }};
+
+  document.getElementById("fastAtk").onclick = function(){
+    var atks = Math.floor((Math.random()*5)+1);
+    console.log(atks);
+    for (i=0; i<atks; i++){
+    var atkConfirm = Math.floor(Math.random()*(100)+1);
+    console.log(atkConfirm);
+    if(atkConfirm <= 20){
+      console.log("miss");
+    }else if(atkConfirm >= 95){
+      console.log("critical!");
+      var normalAtkCrit = Math.floor(Math.random()*(7)+1);
+      var newHp = (en0CurrentHp - normalAtkCrit);
+      en0CurrentHp = newHp;
+      document.getElementById("en0CurrentHp").innerHTML = newHp;
+    }else{
+      console.log("normalDamage");
+      var normalAtk = Math.floor(Math.random()*(5)+1);
+      var newHp = (en0CurrentHp - normalAtk);
+      en0CurrentHp = newHp;
+      console.log("modified health " + newHp);
+      document.getElementById("en0CurrentHp").innerHTML = newHp;
+
+  }}};
 };/*enemyGenerator*/
 //DevNote: can't make it out of a loop: targeting appropriate ids
 // document.getElementById("ventureForth").onclick = function(){
@@ -149,6 +247,7 @@ document.getElementById("ventureForth").onclick = function(){
   // document.getElementById("enemyImage2").src="assets/images/banditLeader.jpg";
   // document.getElementById("enemyImage3").src="assets/images/bandit.jpg";
 
+/*combat-----------------------------------------------------------------------*/
 
 /*BaseStats------------------------------------*/
 var str = 0;
@@ -300,7 +399,7 @@ spanRog.onclick = function() {
     modalRog.style.display = "none";
 };
 window.onclick = function(event) {
-    if (event.target == modal) {
+    if (event.target == modalRog) {
         modalRog.style.display = "none";
     }
 };

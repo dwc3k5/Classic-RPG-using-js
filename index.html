@@ -28,51 +28,108 @@
   </header>
   <main class="row">
     <!--characterMain-->
+
     <div id="characterSide" class="col-lg-4">
+
+      <!--character slot 1-->
       <div id="charSlot1" class="row">
-        <img id="charImage1" src="assets/images/placeholder.jpg">
-        <div class="row charStats">
-          <p class="col-lg-1">hp</p>
-          <p id="warCurrentHp" class="col-lg-1">100/</p>
-          <p id="warMaxHp" class="col-lg-1">100</p>
-          <p class="col-lg-9"></p>
+        <div class="col-lg-1">
+          &nbsp;
         </div>
-        <div class="row charStats">
-          <p class="col-lg-1">mp</p>
-          <p id="warCurrentMp" class="col-lg-1">100/</p>
-          <p id="warMaxMp" class="col-lg-1">100</p>
-          <p class="col-lg-9"></p>
+        <div class="col-lg-4">
+          <img id="charImage1" src="assets/images/placeholder.jpg">
+        </div>
+        <div class="col-lg-7">
+          <button id="normalAtk" class="normalAtk">Normal Attack</button>
+          <button id="fastAtk">Fast Attack</button>
+          <button id="heavyAtk" >Heavy Attack</button>
         </div>
       </div>
-      <div id="charSlot2" class="row">
-        <img id="charImage2" src="assets/images/placeholder.jpg">
-      </div>
+
       <div class="row charStats">
+        <div class="col-lg-1">&nbsp;</div>
+        <p class="col-lg-1">hp</p>
+        <p id="warCurrentHp" class="col-lg-1">100/</p>
+        <p id="warMaxHp" class="col-lg-1">100</p>
+        <p class="col-lg-8"></p>
+      </div>
+
+      <div class="row charStats">
+        <div class="col-lg-1">&nbsp;</div>
+        <p class="col-lg-1">mp</p>
+        <p id="warCurrentMp" class="col-lg-1">100/</p>
+        <p id="warMaxMp" class="col-lg-1">100</p>
+        <p class="col-lg-8"></p>
+      </div>
+
+      <!--character slot 2-->
+      <div id="charSlot2" class="row">
+        <div class="col-lg-1">
+          &nbsp;
+        </div>
+        <div class="col-lg-4">
+          <img id="charImage2" src="assets/images/placeholder.jpg">
+        </div>
+        <div class="col-lg-7">
+        </div>
+      </div>
+
+      <div class="row charStats">
+        <div class="col-lg-1">&nbsp;</div>
         <p class="col-lg-1">hp</p>
         <p id="wizCurrentHp" class="col-lg-1">100/</p>
         <p id="wizMaxHp" class="col-lg-1">100</p>
-        <p class="col-lg-9"></p>
+        <p class="col-lg-8"></p>
       </div>
+
       <div class="row charStats">
+        <div class="col-lg-1">&nbsp;</div>
         <p class="col-lg-1">mp</p>
         <p id="wizCurrentMp" class="col-lg-1">100/</p>
         <p id="wizMaxMp" class="col-lg-1">100</p>
-        <p class="col-lg-9"></p>
+        <p class="col-lg-8"></p>
       </div>
+
+      <!--character slot 3-->
       <div id="charSlot3" class="row">
-        <img id="charImage3" src="assets/images/placeholder.jpg">
+        <div class="col-lg-1">
+          &nbsp;
+        </div>
+        <div class="col-lg-4">
+          <img id="charImage3" src="assets/images/placeholder.jpg">
+        </div>
+        <div class="col-lg-7">
+        </div>
       </div>
+
       <div class="row charStats">
+        <div class="col-lg-1">&nbsp;</div>
         <p class="col-lg-1">hp</p>
         <p id="rogCurrentHp" class="col-lg-1">100/</p>
         <p id="rogMaxHp" class="col-lg-1">100</p>
-        <p class="col-lg-9"></p>
+        <p class="col-lg-8"></p>
       </div>
+
       <div class="row charStats">
+        <div class="col-lg-1">&nbsp;</div>
         <p class="col-lg-1">mp</p>
         <p id="rogCurrentMp" class="col-lg-1">100/</p>
         <p id="rogMaxMp" class="col-lg-1">100</p>
-        <p class="col-lg-9"></p>
+        <div class="col-lg-8">
+          <!-- <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Attack
+    <span class="caret"></span>
+  </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a href="#">Normal Attack</a></li>
+              <li><a href="#">Fast Attack</a></li>
+              <li><a href="#">Heavy Attack</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </div> -->
+        </div>
       </div>
     </div>
     <!---middleMain-->
@@ -138,9 +195,9 @@
 
     </div>
     <div id="attackBtns" class="col-lg-2">
-      <button>placeholder</button>
-      <button>placeholder</button>
-      <button>placeholder</button>
+      <button id="attack">Normal Attack</button>
+      <button>Fast Attack</button>
+      <button>Heavy Attack</button>
     </div>
     <div id="SpecialBtns" class="col-lg-2">
       <button>placeholder</button>
@@ -255,7 +312,7 @@
     </div>
   </div>
   <!--javascriptlinkshere-->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
   <script type="text/javascript" src="rpg.js"></script>
 </body>
 
