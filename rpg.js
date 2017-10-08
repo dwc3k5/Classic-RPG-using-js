@@ -1,3 +1,45 @@
+
+var nAtk = ["normalAtk1", "normalAtk2", "normalAtk3"];
+document.getElementsByClassName("normalAtk").onclick = function(){console.log("hi");};
+$(".normalAtk").click(function test(){console.log("hi");});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*ChosenWarrior----------------------------------------------------------------*/
 var warCurrentHp;
 var warMaxHp;
@@ -31,7 +73,6 @@ var rogInt;
 
 /*en3--------------------------------------------------------------------------*/
 var en0CurrentHp;
-console.log(en0CurrentHp);
 var en0MaxHp;
 var en0CurrentMp;
 var en0MaxMp;
@@ -63,6 +104,10 @@ var Int;
 /*combat-----------------------------------------------------------------------*/
 
 var enemies = ["assets/images/bandit.jpg", "assets/images/banditLeader.jpg", "assets/images/wolf.jpg"];
+var nAtk = [];
+var fAtk = [];
+var hAtk = [];
+// document.getElementById("ventureForth").onclick =
 document.getElementById("ventureForth").onclick = function enemyGen(){
 /*EnemyGenerator---------------------------------------------------------------*/
 /*firstEnemy*/
@@ -167,7 +212,8 @@ document.getElementById("ventureForth").onclick = function enemyGen(){
 var normal = "normalAtk";
 var fast = "fastAtk";
 var heavy = "heavyAtk";
-  document.getElementById("normalAtk").onclick = function(){
+$(".normalAtk").click(function test(){
+    console.log("confirm");
     var atkConfirm = Math.floor(Math.random()*(100)+1);
     console.log(atkConfirm);
     if(atkConfirm <= 15){
@@ -186,9 +232,10 @@ var heavy = "heavyAtk";
       console.log("modified health " + newHp);
       document.getElementById("en0CurrentHp").innerHTML = newHp;
 
-  }};
+  }});
 
-  document.getElementById("heavyAtk").onclick = function(){
+
+  $(".heavyAtk").click(function test(){
     var atkConfirm = Math.floor(Math.random()*(100)+1);
     console.log(atkConfirm);
     if(atkConfirm <= 25){
@@ -207,31 +254,31 @@ var heavy = "heavyAtk";
       console.log("modified health " + newHp);
       document.getElementById("en0CurrentHp").innerHTML = newHp;
 
-  }};
-
-  document.getElementById("fastAtk").onclick = function(){
-    var atks = Math.floor((Math.random()*5)+1);
-    console.log(atks);
-    for (i=0; i<atks; i++){
-    var atkConfirm = Math.floor(Math.random()*(100)+1);
-    console.log(atkConfirm);
-    if(atkConfirm <= 20){
-      console.log("miss");
-    }else if(atkConfirm >= 95){
-      console.log("critical!");
-      var normalAtkCrit = Math.floor(Math.random()*(7)+1);
-      var newHp = (en0CurrentHp - normalAtkCrit);
-      en0CurrentHp = newHp;
-      document.getElementById("en0CurrentHp").innerHTML = newHp;
-    }else{
-      console.log("normalDamage");
-      var normalAtk = Math.floor(Math.random()*(5)+1);
-      var newHp = (en0CurrentHp - normalAtk);
-      en0CurrentHp = newHp;
-      console.log("modified health " + newHp);
-      document.getElementById("en0CurrentHp").innerHTML = newHp;
-
-  }}};
+  }});
+  //
+  // document.getElementById("fastAtk").onclick = function fastAtk(){
+  //   var atks = Math.floor((Math.random()*5)+1);
+  //   console.log(atks);
+  //   for (i=0; i<atks; i++){
+  //   var atkConfirm = Math.floor(Math.random()*(100)+1);
+  //   console.log(atkConfirm);
+  //   if(atkConfirm <= 20){
+  //     console.log("miss");
+  //   }else if(atkConfirm >= 95){
+  //     console.log("critical!");
+  //     var normalAtkCrit = Math.floor(Math.random()*(7)+1);
+  //     var newHp = (en0CurrentHp - normalAtkCrit);
+  //     en0CurrentHp = newHp;
+  //     document.getElementById("en0CurrentHp").innerHTML = newHp;
+  //   }else{
+  //     console.log("normalDamage");
+  //     var normalAtk = Math.floor(Math.random()*(5)+1);
+  //     var newHp = (en0CurrentHp - normalAtk);
+  //     en0CurrentHp = newHp;
+  //     console.log("modified health " + newHp);
+  //     document.getElementById("en0CurrentHp").innerHTML = newHp;
+  //
+  // }}};
 };/*enemyGenerator*/
 //DevNote: can't make it out of a loop: targeting appropriate ids
 // document.getElementById("ventureForth").onclick = function(){
@@ -312,6 +359,8 @@ document.getElementById("barbarianChoice").onclick =function(){
   document.getElementById("warMaxHp").innerHTML = warMaxHp;
   document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
+  document.getElementById("rage").style.display = "flex";
+  document.getElementById("BtnWarrior").style.display = "none";
 };
 document.getElementById("crusaderChoice").onclick =function(){
   document.getElementById("charImage1").src ="assets/images/crusader.jpg";
@@ -323,6 +372,8 @@ document.getElementById("crusaderChoice").onclick =function(){
   document.getElementById("warMaxHp").innerHTML = warMaxHp;
   document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
+  document.getElementById("inspire").style.display = "flex";
+  document.getElementById("BtnWarrior").style.display = "none";
 };
 document.getElementById("hellKnightChoice").onclick =function(){
   document.getElementById("charImage1").src ="assets/images/hellKnight.jpg";
@@ -334,6 +385,8 @@ document.getElementById("hellKnightChoice").onclick =function(){
   document.getElementById("warMaxHp").innerHTML = warMaxHp;
   document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
+  document.getElementById("darkStrike").style.display = "flex";
+  document.getElementById("BtnWarrior").style.display = "none";
 };
 
 
@@ -363,6 +416,8 @@ document.getElementById("clericChoice").onclick =function(){
   document.getElementById("wizMaxHp").innerHTML = wizMaxHp;
   document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
+  document.getElementById("").style.display = "flex";
+  document.getElementById("BtnWizard").style.display = "none";
 };
 document.getElementById("blackMageChoice").onclick =function(){
   document.getElementById("charImage2").src ="assets/images/blackMage.jpg";
@@ -374,6 +429,7 @@ document.getElementById("blackMageChoice").onclick =function(){
   document.getElementById("wizMaxHp").innerHTML = wizMaxHp;
   document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
+  document.getElementById("BtnWizard").style.display = "none";
 };
 document.getElementById("alchemistChoice").onclick =function(){
   document.getElementById("charImage2").src ="assets/images/alchemist.png";
@@ -385,6 +441,7 @@ document.getElementById("alchemistChoice").onclick =function(){
   document.getElementById("wizMaxHp").innerHTML = wizMaxHp;
   document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
+  document.getElementById("BtnWizard").style.display = "none";
 };
 
 
@@ -414,6 +471,7 @@ document.getElementById("assassinChoice").onclick =function(){
   document.getElementById("rogMaxHp").innerHTML = rogMaxHp;
   document.getElementById("rogCurrentMp").innerHTML = rogCurrentMp;
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
+  document.getElementById("BtnRogue").style.display = "none";
 };
 document.getElementById("rangerChoice").onclick =function(){
   document.getElementById("charImage3").src ="assets/images/ranger.jpg";
@@ -425,6 +483,7 @@ document.getElementById("rangerChoice").onclick =function(){
   document.getElementById("rogMaxHp").innerHTML = rogMaxHp;
   document.getElementById("rogCurrentMp").innerHTML = rogCurrentMp;
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
+  document.getElementById("BtnRogue").style.display = "none";
 };
 document.getElementById("thiefChoice").onclick = function(){
   document.getElementById("charImage3").src ="assets/images/thief.jpg";
@@ -436,4 +495,5 @@ document.getElementById("thiefChoice").onclick = function(){
   document.getElementById("rogMaxHp").innerHTML = rogMaxHp;
   document.getElementById("rogCurrentMp").innerHTML = rogCurrentMp;
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
+  document.getElementById("BtnRogue").style.display = "none";
 };

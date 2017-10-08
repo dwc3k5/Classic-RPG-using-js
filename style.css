@@ -1,13 +1,41 @@
 body{
   background-image: url(assets/images/forestBackground.jpg);
-  width: 100%;
-  height: 100%;
+  margin:0;
+  padding:0;
 }
 .charStats{
+  background-color: none;
+}
+.special{
+  display:none;
+}
+
+.stats{
   background-color: white;
 }
 /*header-----------------------------------------------------------------------*/
+#BtnRogue{
+  display:;
+}
+#rest{
+  display:none;
+}
+#search{
+  display:none;
+}
+.actions{
+  margin: 0 auto;
+}
 /*main-------------------------------------------------------------------------*/
+/*charactermain----------------------------------------------------------------------------------------*/
+/*centermain-------------------------------------------------------------------------------------------*/
+/*enemymain--------------------------------------------------------------------------------------------*/
+.enemyImage{
+  float:right;
+}
+.enemyStats{
+  float:right;
+}
 /*footer-----------------------------------------------------------------------*/
 /*ModalCharSelects-------------------------------------------------------------*/
 /* The Modal (background) */

@@ -13,17 +13,17 @@
 
 <body>
   <header class="row">
-    <div class="col-lg-3">
+    <div class="col-lg-4">
       <button id="BtnWarrior">Warrior</button>
       <button id="BtnWizard">Wizard</button>
       <button id="BtnRogue">Rogue</button>
     </div>
-    <div class="col-lg-3">
-      <button id="ventureForth">Venture Forth!</button>
+    <div class="col-lg-4">
+      <button id="ventureForth" class="actions">Venture Forth!</button>
       <button id="rest">Rest Awhile</button>
       <button id="search">Search</button>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-4">
     </div>
   </header>
   <main class="row">
@@ -40,26 +40,30 @@
           <img id="charImage1" src="assets/images/placeholder.jpg">
         </div>
         <div class="col-lg-7">
-          <button id="normalAtk" class="normalAtk">Normal Attack</button>
-          <button id="fastAtk">Fast Attack</button>
-          <button id="heavyAtk" >Heavy Attack</button>
+          <button id="normalAtk1" class="atks normalAtk">Normal Attack</button>
+          <button id="fastAtk" class="atks fastAtk">Fast Attack</button>
+          <button class="atks heavyAtk">Heavy Attack</button>
+          <button id="inspire" class="special">Inspire</button>
+          <button id="darkStrike" class="special">DarkStrike</button>
+          <button id="rage" class="special">Rage</button>
+
         </div>
       </div>
 
       <div class="row charStats">
-        <div class="col-lg-1">&nbsp;</div>
-        <p class="col-lg-1">hp</p>
-        <p id="warCurrentHp" class="col-lg-1">100/</p>
-        <p id="warMaxHp" class="col-lg-1">100</p>
-        <p class="col-lg-8"></p>
+        <div class="col-lg-2">&nbsp;</div>
+        <p class="col-lg-1 stats">hp</p>
+        <p id="warCurrentHp" class="col-lg-1 stats">100/</p>
+        <p id="warMaxHp" class="col-lg-1 stats">100</p>
+        <p class="col-lg-7"></p>
       </div>
 
       <div class="row charStats">
-        <div class="col-lg-1">&nbsp;</div>
-        <p class="col-lg-1">mp</p>
-        <p id="warCurrentMp" class="col-lg-1">100/</p>
-        <p id="warMaxMp" class="col-lg-1">100</p>
-        <p class="col-lg-8"></p>
+        <div class="col-lg-2">&nbsp;</div>
+        <p class="col-lg-1 stats">mp</p>
+        <p id="warCurrentMp" class="col-lg-1 stats">100/</p>
+        <p id="warMaxMp" class="col-lg-1 stats">100</p>
+        <p class="col-lg-7"></p>
       </div>
 
       <!--character slot 2-->
@@ -71,23 +75,29 @@
           <img id="charImage2" src="assets/images/placeholder.jpg">
         </div>
         <div class="col-lg-7">
+          <button id="normalAtk2" class="atks normalAtk">Normal Attack</button>
+          <button class="atks fastAtk">Fast Attack</button>
+          <button class="atks heavyAtk">Heavy Attack</button>
+          <button id="fire" class="special">Fire</button>
+          <button id="cocktail" class="special">Cocktail</button>
+          <button id="heal" class="special">Heal</button>
         </div>
       </div>
 
       <div class="row charStats">
-        <div class="col-lg-1">&nbsp;</div>
-        <p class="col-lg-1">hp</p>
-        <p id="wizCurrentHp" class="col-lg-1">100/</p>
-        <p id="wizMaxHp" class="col-lg-1">100</p>
-        <p class="col-lg-8"></p>
+        <div class="col-lg-2">&nbsp;</div>
+        <p class="col-lg-1 stats">hp</p>
+        <p id="wizCurrentHp" class="col-lg-1 stats">100/</p>
+        <p id="wizMaxHp" class="col-lg-1 stats">100</p>
+        <p class="col-lg-7"></p>
       </div>
 
       <div class="row charStats">
-        <div class="col-lg-1">&nbsp;</div>
-        <p class="col-lg-1">mp</p>
-        <p id="wizCurrentMp" class="col-lg-1">100/</p>
-        <p id="wizMaxMp" class="col-lg-1">100</p>
-        <p class="col-lg-8"></p>
+        <div class="col-lg-2">&nbsp;</div>
+        <p class="col-lg-1 stats">mp</p>
+        <p id="wizCurrentMp" class="col-lg-1 stats">100/</p>
+        <p id="wizMaxMp" class="col-lg-1 stats">100</p>
+        <p class="col-lg-7"></p>
       </div>
 
       <!--character slot 3-->
@@ -99,23 +109,26 @@
           <img id="charImage3" src="assets/images/placeholder.jpg">
         </div>
         <div class="col-lg-7">
+          <button id="normalAtk3" class="atks normalAtk">Normal Attack</button>
+          <button class="atks fastAtk">Fast Attack</button>
+          <button class="atks heavyAtk">Heavy Attack</button>
         </div>
       </div>
 
       <div class="row charStats">
-        <div class="col-lg-1">&nbsp;</div>
-        <p class="col-lg-1">hp</p>
-        <p id="rogCurrentHp" class="col-lg-1">100/</p>
-        <p id="rogMaxHp" class="col-lg-1">100</p>
-        <p class="col-lg-8"></p>
+        <div class="col-lg-2">&nbsp;</div>
+        <p class="col-lg-1 stats">hp</p>
+        <p id="rogCurrentHp" class="col-lg-1 stats">100/</p>
+        <p id="rogMaxHp" class="col-lg-1 stats">100</p>
+        <p class="col-lg-7"></p>
       </div>
 
       <div class="row charStats">
-        <div class="col-lg-1">&nbsp;</div>
-        <p class="col-lg-1">mp</p>
-        <p id="rogCurrentMp" class="col-lg-1">100/</p>
-        <p id="rogMaxMp" class="col-lg-1">100</p>
-        <div class="col-lg-8">
+        <div class="col-lg-2">&nbsp;</div>
+        <p class="col-lg-1 stats">mp</p>
+        <p id="rogCurrentMp" class="col-lg-1 stats">100/</p>
+        <p id="rogMaxMp" class="col-lg-1 stats">100</p>
+        <div class="col-lg-7">
           <!-- <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     Attack
@@ -139,60 +152,78 @@
     <div id="enemySide" class="col-lg-4">
       <!--firstEnemy-->
       <div id="enemySlot1" class="row">
-        <img id="enemyImage0" src="assets/images/placeholder.jpg">
+        <div class="col-lg-7">
+        </div>
+        <div class="col-lg-4">
+          <img id="enemyImage0" class="enemyImage" src="assets/images/placeholder.jpg">
+        </div>
+        <div class="col-lg-1">
+        </div>
       </div>
 
       <div class="row charStats">
-        <p class="col-lg-1">hp</p>
-        <p id="en0CurrentHp" class="col-lg-1">100/</p>
-        <p id="en0MaxHp" class="col-lg-1">100</p>
+        <p class="col-lg-1 stats enemyStats">hp</p>
+        <p id="en0CurrentHp" class="col-lg-1 stats enemyStats">100/</p>
+        <p id="en0MaxHp" class="col-lg-1 stats enemyStats">100</p>
         <p class="col-lg-9"></p>
       </div>
 
       <div class="row charStats">
-        <p class="col-lg-1">mp</p>
-        <p id="en0CurrentMp" class="col-lg-1">100/</p>
-        <p id="en0MaxMp" class="col-lg-1">100</p>
+        <p class="col-lg-1 stats enemyStats">mp</p>
+        <p id="en0CurrentMp" class="col-lg-1 stats enemyStats">100/</p>
+        <p id="en0MaxMp" class="col-lg-1 stats enemyStats">100</p>
         <p class="col-lg-9"></p>
       </div>
 
 
       <!--secondEnemy-->
       <div id="enemySlot2" class="row">
-        <img id="enemyImage1" src="assets/images/placeholder.jpg">
+        <div class="col-lg-7">
+        </div>
+        <div class="col-lg-4">
+          <img id="enemyImage1" class="enemyImage" src="assets/images/placeholder.jpg">
+        </div>
+        <div class="col-lg-1">
+        </div>
       </div>
 
       <div class="row charStats">
-        <p class="col-lg-1">hp</p>
-        <p id="en1CurrentHp" class="col-lg-1">100/</p>
-        <p id="en1MaxHp" class="col-lg-1">100</p>
+        <p class="col-lg-1 stats enemyStats">hp</p>
+        <p id="en1CurrentHp" class="col-lg-1 stats enemyStats">100/</p>
+        <p id="en1MaxHp" class="col-lg-1 stats enemyStats">100</p>
         <p class="col-lg-9"></p>
       </div>
 
       <div class="row charStats">
-        <p class="col-lg-1">mp</p>
-        <p id="en1CurrentMp" class="col-lg-1">100/</p>
-        <p id="en1MaxMp" class="col-lg-1">100</p>
+        <p class="col-lg-1 stats enemyStats">mp</p>
+        <p id="en1CurrentMp" class="col-lg-1 stats enemyStats">100/</p>
+        <p id="en1MaxMp" class="col-lg-1 stats enemyStats">100</p>
         <p class="col-lg-9"></p>
       </div>
 
 
       <!--thirdEnemy-->
       <div id="enemySlot3" class="row">
-        <img id="enemyImage2" src="assets/images/placeholder.jpg">
+        <div class="col-lg-7">
+        </div>
+        <div class="col-lg-4">
+          <img id="enemyImage2" class="enemyImage" src="assets/images/placeholder.jpg">
+        </div>
+        <div class="col-lg-1">
+        </div>
       </div>
 
       <div class="row charStats">
-        <p class="col-lg-1">hp</p>
-        <p id="en2CurrentHp" class="col-lg-1">100/</p>
-        <p id="en2MaxHp" class="col-lg-1">100</p>
+        <p class="col-lg-1 stats enemyStats">hp</p>
+        <p id="en2CurrentHp" class="col-lg-1 stats enemyStats">100/</p>
+        <p id="en2MaxHp" class="col-lg-1 stats enemyStats">100</p>
         <p class="col-lg-9"></p>
       </div>
 
       <div class="row charStats">
-        <p class="col-lg-1">mp</p>
-        <p id="en2CurrentMp" class="col-lg-1">100/</p>
-        <p id="en2MaxMp" class="col-lg-1">100</p>
+        <p class="col-lg-1 stats enemyStats">mp</p>
+        <p id="en2CurrentMp" class="col-lg-1 stats enemyStats">100/</p>
+        <p id="en2MaxMp" class="col-lg-1 stats enemyStats">100</p>
         <p class="col-lg-9"></p>
       </div>
 
@@ -326,7 +357,8 @@
     </div>
   </div>
   <!--javascriptlinkshere-->
-  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script type="text/javascript" src="rpg.js"></script>
 </body>
 
