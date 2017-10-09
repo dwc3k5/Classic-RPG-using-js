@@ -19,7 +19,7 @@
       <button id="BtnRogue">Rogue</button>
     </div>
     <div class="col-lg-4">
-      <button id="ventureForth" class="actions">Venture Forth!</button>
+      <button id="ventureForth" class="moveFwd">Venture Forth!</button>
       <button id="rest">Rest Awhile</button>
       <button id="search">Search</button>
     </div>
@@ -36,16 +36,22 @@
         <div class="col-lg-1">
           &nbsp;
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 charImage">
+          <p id="staggeredTop">!STAGGERED!</p>
           <img id="charImage1" src="assets/images/placeholder.jpg">
         </div>
         <div class="col-lg-7">
-          <button id="normalAtk1" class="atks normalAtk">Normal Attack</button>
-          <button id="fastAtk" class="atks fastAtk">Fast Attack</button>
-          <button class="atks heavyAtk">Heavy Attack</button>
-          <button id="inspire" class="special">Inspire</button>
-          <button id="darkStrike" class="special">DarkStrike</button>
-          <button id="rage" class="special">Rage</button>
+          <button class="attack">Attack</button>
+          <button id="normalAtk1" class="atks actions normalAtk">Normal Attack</button>
+          <button id="fastAtk" class="atks actions fastAtk">Fast Attack</button>
+          <button class="atks actions heavyAtk">Heavy Attack</button>
+
+          <button id="inspire" class="actions special">Inspire</button>
+          <button id="darkStrike" class="actions special">DarkStrike</button>
+          <button id="rage" class="actions special">Rage</button>
+
+          <button id="warItems"> Items </button>
+
 
         </div>
       </div>
@@ -71,16 +77,20 @@
         <div class="col-lg-1">
           &nbsp;
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 charImage">
+          <p id="staggeredMid">!STAGGERED!</p>
           <img id="charImage2" src="assets/images/placeholder.jpg">
         </div>
         <div class="col-lg-7">
-          <button id="normalAtk2" class="atks normalAtk">Normal Attack</button>
-          <button class="atks fastAtk">Fast Attack</button>
-          <button class="atks heavyAtk">Heavy Attack</button>
-          <button id="fire" class="special">Fire</button>
-          <button id="cocktail" class="special">Cocktail</button>
-          <button id="heal" class="special">Heal</button>
+          <button id="normalAtk2" class="atks actions normalAtk">Normal Attack</button>
+          <button class="atks actions fastAtk">Fast Attack</button>
+          <button class="atks actions heavyAtk">Heavy Attack</button>
+
+          <button id="fire" class="special actions">Fire</button>
+          <button id="cocktail" class="special actions">Cocktail</button>
+          <button id="heal" class="special actions">Heal</button>
+
+          <button id="wizItems">Items</button>
         </div>
       </div>
 
@@ -105,13 +115,22 @@
         <div class="col-lg-1">
           &nbsp;
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 charImage">
+          <p id="staggeredBot">!STAGGERED!</p>
           <img id="charImage3" src="assets/images/placeholder.jpg">
         </div>
         <div class="col-lg-7">
-          <button id="normalAtk3" class="atks normalAtk">Normal Attack</button>
-          <button class="atks fastAtk">Fast Attack</button>
-          <button class="atks heavyAtk">Heavy Attack</button>
+          <button id="normalAtk3" class="atks actions normalAtk">Normal Attack</button>
+          <button class="atks actions fastAtk">Fast Attack</button>
+          <button class="atks actions heavyAtk">Heavy Attack</button>
+
+          <button id="mug" class="special actions">Mug</button>
+          <button id="headShot" class="special actions">Head Shot</button>
+          <button id="eviscerate" class="special actions">Eviscerate</button>
+
+          <button id="rogItems">Items</button>
+
+
         </div>
       </div>
 
@@ -147,6 +166,15 @@
     </div>
     <!---middleMain-->
     <div id="textContainer" class="col-lg-4">
+      <button id="allies" class="groups">Allies</button>
+      <button id="enemies" class="groups">Enemies</button>
+
+      <button id="enTop" class="targets en">Top Enemy</button>
+      <button id="enMid" class="targets en">Middle Enemy</button>
+      <button id="enBot" class="targets en">Bottom Enemy</button>
+      <button id="allyTop" class="targets al">Top Hero</button>
+      <button id="allyMid" class="targets al">Middle Hero</button>
+      <button id="allyBot" class="targets al">Bottom Hero</button>
     </div>
     <!--enemyMain-->
     <div id="enemySide" class="col-lg-4">
@@ -245,9 +273,9 @@
       <button>Heavy Attack</button>
     </div>
     <div id="SpecialBtns" class="col-lg-2">
-      <button>placeholder</button>
-      <button>placeholder</button>
-      <button>placeholder</button>
+      <button id="staggerTrigger">Stagger</button>
+      <button id="test">Test</button>
+      <button id="test2">Test2</button>
     </div>
     <div id="placeholder" class="col-lg-2">
     </div>
@@ -267,7 +295,7 @@
   <div id="warriorSelector">
     <div id="myModalWarrior" class="modalWar">
       <!-- Modal content -->
-      <div class="modal-content">
+      <div class="modal-content-warrior">
         <span class="closeWar">&times;</span>
         <div class="row">
           <div class="col-lg-3">
@@ -296,7 +324,7 @@
       <div id="myModalWizard" class="modal">
 
 
-        <div class="modal-content">
+        <div class="modal-content-wizard">
           <span class="closeWiz">&times;</span>
           <div class="row">
             <div class="col-lg-3">
@@ -331,7 +359,7 @@
     <div id="myModalRogue" class="modal">
 
 
-      <div class="modal-content">
+      <div class="modal-content-rogue">
         <span class="closeRog">&times;</span>
         <div class="row">
           <div class="col-lg-3">
@@ -356,10 +384,48 @@
       </div>
     </div>
   </div>
+
+
+  <!--inventory-->
+  <div id="inventorySelector">
+    <div id="myInventory" class="modal">
+
+
+      <div class="modal-content-inventory">
+        <span class="closeInv">&times;</span>
+        <div class="row">
+          <div class="col-lg-3">
+            <h4>Health Potion</h4>
+            <p>Thick substance to replenish health</p>
+            <img src="assets/images/potionHp.jpg">
+            <p id="potionHpRemaining">Amount Remaining</p>
+            <button id="potionHp">Choose</button>
+          </div>
+          <div class="col-lg-3">
+            <h4>Mana Potion</h4>
+            <p>This Glowing substance Restores Mana</p>
+            <img src="assets/images/potionMp.jpg">
+            <p id="potionMpRemaining">Amount Remaining</p>
+            <button id="potionMp">Choose</button>
+
+          </div>
+          <div class="col-lg-3">
+            <h4>Bomb</h4>
+            <p>This highly unstable device explodes for extreme damage</p>
+            <img src="assets/images/bomb.jpg">
+            <p id="bombRemaining">Amount Remaining</p>
+            <button id="bomb">Choose</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--javascriptlinkshere-->
   <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script type="text/javascript" src="rpg.js"></script>
 </body>
+
+<!--inventory-->
 
 </html>
