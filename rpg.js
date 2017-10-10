@@ -12,10 +12,15 @@
 // };
 /*variables--------------------------------------------------------------------*/
 /*variables---Inventory--------------------------------------------------------*/
+var x;
+var y;
+var w;
+var z;
 var potionHp = 5;
 var potionMp = 5;
 var bomb = 5;
-
+/*variables---triggers?--------------------------------------------------------*/
+var action;
 
 /*variables---Characters-------------------------------------------------------*/
 /*ChosenWarrior----------------------------------------------------------------*/
@@ -24,6 +29,7 @@ var warCurrentHp;
 var warMaxHp;
 var warCurrentMp;
 var warMaxMp;
+var warCurrentStagger = 0;
 
 var warStr;
 var warDex;
@@ -34,6 +40,7 @@ var wizCurrentHp;
 var wizMaxHp;
 var wizCurrentMp;
 var wizMaxMp;
+var wizCurrentStagger = 0;
 
 var wizStr;
 var wizDex;
@@ -44,6 +51,7 @@ var rogCurrentHp;
 var rogMaxHp;
 var rogCurrentMp;
 var rogMaxMp;
+rogCurrentStagger = 0 ;
 
 var rogStr;
 var rogDex;
@@ -51,34 +59,27 @@ var rogInt;
 
 
 /*variables---Enemies----------------------------------------------------------*/
+var enemies = ["assets/images/bandit.jpg", "assets/images/banditLeader.jpg", "assets/images/wolf.jpg"];
 /*en0--------------------------------------------------------------------------*/
 var en0CurrentHp;
 var en0MaxHp;
 var en0CurrentMp;
 var en0MaxMp;
-// var Str;
-// var Dex;
-// var Int;
 /*en1--------------------------------------------------------------------------*/
 var en1CurrentHp;
 var en1MaxHp;
 var en1CurrentMp;
 var en1MaxMp;
-// var Str;
-// var Dex;
-// var Int;
 /*en2--------------------------------------------------------------------------*/
 var en2CurrentHp;
 var en2MaxHp;
 var en2CurrentMp;
 var en2MaxMp;
-// var Str;
-// var Dex;
-// var Int;
-
 
 /*variables---Misc-------------------------------------------------------------*/
-var stagger = 3;
+enemyStagger = 0;
+
+
 document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
 document.getElementById("potionMpRemaining").innerHTML = "X " + potionMp;
 document.getElementById("bombRemaining").innerHTML = "X " + bomb;
@@ -119,7 +120,7 @@ document.getElementById("barbarianChoice").onclick =function(){
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
   document.getElementById("rage").style.display = "flex";
   document.getElementById("BtnWarrior").style.display = "none";
-  $("#mainText").text("A barbarian has joined your cause!");
+  $("#mainText").prepend("A barbarian has joined your cause!<br><br>");
   warChosen = true;
 };
 document.getElementById("crusaderChoice").onclick =function(){
@@ -134,7 +135,7 @@ document.getElementById("crusaderChoice").onclick =function(){
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
   document.getElementById("inspire").style.display = "flex";
   document.getElementById("BtnWarrior").style.display = "none";
-  $("#mainText").text("A crusader pledges themself to your cause!");
+  $("#mainText").prepend("A crusader pledges themself to your cause!<br><br>");
   warChosen = true;
 };
 document.getElementById("hellKnightChoice").onclick =function(){
@@ -149,7 +150,7 @@ document.getElementById("hellKnightChoice").onclick =function(){
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
   document.getElementById("darkStrike").style.display = "flex";
   document.getElementById("BtnWarrior").style.display = "none";
-  $("#mainText").text("A Hell Knight will aid you... for now.");
+  $("#mainText").prepend("A Hell Knight will aid you... for now.<br><br>");
   warChosen = true;
 };
 
@@ -182,7 +183,7 @@ document.getElementById("clericChoice").onclick =function(){
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
   document.getElementById("heal").style.display = "flex";
   document.getElementById("BtnWizard").style.display = "none";
-  $("#mainText").text("The Gods have sent a holy man to aid you.");
+  $("#mainText").prepend("The Gods have sent a holy man to aid you.<br><br>");
   wizChosen = true;
 };
 document.getElementById("blackMageChoice").onclick =function(){
@@ -197,7 +198,7 @@ document.getElementById("blackMageChoice").onclick =function(){
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
   document.getElementById("fire").style.display = "flex";
   document.getElementById("BtnWizard").style.display = "none";
-  $("#mainText").text("Energy crackles around you as a black mage nods in agreement.");
+  $("#mainText").prepend("Energy crackles around you as a black mage nods in agreement.<br><br>");
   wizChosen = true;
 };
 document.getElementById("alchemistChoice").onclick =function(){
@@ -212,7 +213,7 @@ document.getElementById("alchemistChoice").onclick =function(){
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
   document.getElementById("cocktail").style.display = "flex";
   document.getElementById("BtnWizard").style.display = "none";
-  $("#mainText").text("Nevermind the scorch marks on the front lawn... or the missing fingers... this alchemist clearly knows what they're doing!");
+  $("#mainText").prepend("Nevermind the scorch marks on the front lawn... or the missing fingers... this alchemist clearly knows what they're doing!<br><br>");
   wizChosen = true;
 };
 
@@ -245,7 +246,7 @@ document.getElementById("assassinChoice").onclick =function(){
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
   document.getElementById("eviscerate").style.display ="flex";
   document.getElementById("BtnRogue").style.display = "none";
-  $("#mainText").text("So he didn't say anything to you... but you aren't dead! so there's that.");
+  $("#mainText").prepend("So he didn't say anything to you... but you aren't dead! so there's that.<br><br>");
   rogChosen = true;
 };
 document.getElementById("rangerChoice").onclick =function(){
@@ -260,7 +261,7 @@ document.getElementById("rangerChoice").onclick =function(){
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
   document.getElementById("headShot").style.display = "flex";
   document.getElementById("BtnRogue").style.display = "none";
-  $("#mainText").text("He made you ask his wolf for approval, but that one wolf means he still has more friends than you.");
+  $("#mainText").prepend("He made you ask his wolf for approval, but that one wolf means he still has more friends than you.<br><br>");
   rogChosen = true;
 };
 document.getElementById("thiefChoice").onclick = function(){
@@ -275,476 +276,266 @@ document.getElementById("thiefChoice").onclick = function(){
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
   document.getElementById("mug").style.display = "flex";
   document.getElementById("BtnRogue").style.display = "none";
-  $("#mainText").text("Dear Diary, I'm not so sure about this thief. He didn't even once try to go for my coinpurse. He fumbled his daggers a few times. Shoddy work. One moment, I need to get my second ink vial to finish this mes.......*damnit*");
+  $("#mainText").prepend("Dear Diary, I'm not so sure about this thief. He didn't even once try to go for my coinpurse. He fumbled his daggers a few times. Shoddy work. One moment, I need to get my second ink vial to finish this mes.......*damnit*<br><br>");
   rogChosen =true;
 };
 
-//ITEM FUNCTIONS---------------------------------------------------------------------------------------*/
+//ITEM FUNCTIONS---------------------------------------------------------------*/
 $("#potionHp").click(function(){
-  console.log("test");
+
   if(potionHp>0){
+  action = "healthPotion";
   potionHp--;
   document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
   modalInv.style.display = "none";
   document.getElementById("allies").style.display ="block";
   document.getElementById("enemies").style.display ="block";
-
-//the second time you click this... it runs 2 times
-//the third time you click this... it runs 3 times
-    $("#allies").click(function(){
-      console.log("testTwo");
-      document.getElementById("allies").style.display ="none";
-      document.getElementById("enemies").style.display ="none";
-      document.getElementById("allyTop").style.display = "block";
-      document.getElementById("allyMid").style.display = "block";
-      document.getElementById("allyBot").style.display = "block";
-
-//the second time you click this... it runs 3 times
-//the third time you click this... it runs 6 times
-      $("#allyTop").click(function(){
-
-        console.log(warCurrentHp);
-        warCurrentHp += 25;
-        console.log(warCurrentHp);
-        document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-        console.log(warCurrentHp);
-        console.log("----------------");
-      });
-
-      $("#allyMid").click(function(){
-        wizCurrentHp += 25;
-        document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-
-      $("#allyBot").click(function(){
-        rogCurrentHp += 25;
-        document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-    });
-    $("#enemies").click(function(){
-      document.getElementById("allies").style.display ="none";
-      document.getElementById("enemies").style.display ="none";
-      document.getElementById("enTop").style.display = "block";
-      document.getElementById("enMid").style.display = "block";
-      document.getElementById("enBot").style.display = "block";
-
-      $("#enTop").click(function(){
-
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-      $("#enMid").click(function(){
-
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-      $("#enBot").click(function(){
-
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-
-    });/*end hp potions*/
-
-
-}else{
-  alert("HEY LISTEN!");
 }});
-
 
 $("#potionMp").click(function(){
   if(potionMp>0){
+    action = "manaPotion";
     potionMp--;
     document.getElementById("potionMpRemaining").innerHTML = "X " + potionMp;
     modalInv.style.display = "none";
     document.getElementById("allies").style.display ="block";
     document.getElementById("enemies").style.display ="block";
-
-    $("#allies").click(function(){
-      document.getElementById("allies").style.display ="none";
-      document.getElementById("enemies").style.display ="none";
-      document.getElementById("allyTop").style.display = "block";
-      document.getElementById("allyMid").style.display = "block";
-      document.getElementById("allyBot").style.display = "block";
-
-      $("#allyTop").click(function(){
-        warCurrentMp += 15;
-        document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-      $("#allyMid").click(function(){
-        wizCurrentMp +=15;
-        document.getElementById("wizgCurrentMp").innerHTML = wizCurrentMp;
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-      $("#allyBot").click(function(){
-        rogCurrentMp +=15;
-        document.getElementById("rogCurrentHp").innerHTML = rogCurrentMp;
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-    });
-
-    $("#enemies").click(function(){
-      document.getElementById("allies").style.display ="none";
-      document.getElementById("enemies").style.display ="none";
-      document.getElementById("enTop").style.display = "block";
-      document.getElementById("enMid").style.display = "block";
-      document.getElementById("enBot").style.display = "block";
-
-      $("#enTop").click(function(){
-
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-      $("#enMid").click(function(){
-
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-      $("#enBot").click(function(){
-
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-    });
-
-}else{
-  alert("You Must Construct Additonal Pylons");
 }});
+
 $("#bomb").click(function(){
   if(bomb>0){
+  action = "bomb";
   bomb--;
   document.getElementById("bombRemaining").innerHTML = "X " + bomb;
   modalInv.style.display = "none";
   document.getElementById("allies").style.display ="block";
   document.getElementById("enemies").style.display ="block";
-
-  $("#allies").click(function(){
-    document.getElementById("allies").style.display ="none";
-    document.getElementById("enemies").style.display ="none";
-    document.getElementById("allyTop").style.display = "block";
-    document.getElementById("allyMid").style.display = "block";
-    document.getElementById("allyBot").style.display = "block";
-
-    $("#allyTop").click(function(){
-      document.getElementById("allyTop").style.display = "none";
-      document.getElementById("allyMid").style.display = "none";
-      document.getElementById("allyBot").style.display = "none";
-    });
-    $("#allyMid").click(function(){
-      document.getElementById("allyTop").style.display = "none";
-      document.getElementById("allyMid").style.display = "none";
-      document.getElementById("allyBot").style.display = "none";
-    });
-    $("#allyMid").click(function(){
-      document.getElementById("allyTop").style.display = "none";
-      document.getElementById("allyMid").style.display = "none";
-      document.getElementById("allyBot").style.display = "none";
-    });
-  });
-
-  $("#enemies").click(function(){
-    document.getElementById("allies").style.display ="none";
-    document.getElementById("enemies").style.display ="none";
-    document.getElementById("enTop").style.display = "block";
-    document.getElementById("enMid").style.display = "block";
-    document.getElementById("enBot").style.display = "block";
-
-    $("#enTop").click(function(){
-      en0CurrentHp -= 20;
-      document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
-      document.getElementById("enTop").style.display = "none";
-      document.getElementById("enMid").style.display = "none";
-      document.getElementById("enBot").style.display = "none";
-    });
-    $("#enMid").click(function(){
-      en1CurrentHp -= 20;
-      document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
-      document.getElementById("enTop").style.display = "none";
-      document.getElementById("enMid").style.display = "none";
-      document.getElementById("enBot").style.display = "none";
-    });
-    $("#enBot").click(function(){
-      en2CurrentHp -= 20;
-      document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
-      document.getElementById("enTop").style.display = "none";
-      document.getElementById("enMid").style.display = "none";
-      document.getElementById("enBot").style.display = "none";
-    });
-  });
-}else{
-  alert("Prof Oak: Now is not the time.");
 }});
+/*GENERIC ACTIONS--------------------------------------------------------------*/
+$(".normalAtk").click(function(){
+ action = "normalAttack";
+ document.getElementById("allies").style.display ="block";
+ document.getElementById("enemies").style.display ="block";
+});
+$(".heavyAtk").click(function(){
+ action = "heavyAttack";
+ document.getElementById("allies").style.display ="block";
+ document.getElementById("enemies").style.display ="block";
+});
+$(".fastAtk").click(function(){
+ action = "fastAttack";
+ document.getElementById("allies").style.display ="block";
+ document.getElementById("enemies").style.display ="block";
+});
 
-
-
-
-
-
-/*combat-----------------------------------------------------------------------*/
-
-
-
-
-
-// document.getElementById("ventureForth").onclick =
-var enemies = ["assets/images/bandit.jpg", "assets/images/banditLeader.jpg", "assets/images/wolf.jpg"];
-document.getElementById("ventureForth").onclick = function enemyGen(){
-  document.getElementById("allClear").style.display = "block";
-  var selector0 = Math.floor(Math.random()*(enemies.length));
-  document.getElementById("enemyImage0").src = enemies[selector0];
-  if(enemies[selector0] === enemies[0]){
-    en0MaxHp = 30;
-    en0CurrentHp = 30;
-    en0MaxMp = 10;
-    en0CurrentMp = en0MaxMp;
-    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
-    document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
-    document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
-    document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
-  }else if(enemies[selector0] === enemies[1]){
-     en0MaxHp = 50;
-     en0CurrentHp = 50;
-     en0MaxMp = 10;
-     en0CurrentMp = en0MaxMp;
-    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
-    document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
-    document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
-    document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
-  }else if(enemies[selector0] === enemies[2]){
-    en0MaxHp = 20;
-    en0CurrentHp = 20;
-    en0MaxMp = 5;
-    en0CurrentMp = en0MaxMp;
-    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
-    document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
-    document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
-    document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
-  }
-  /*secondEnemy*/
-  var selector1 = Math.floor(Math.random()*(enemies.length));
-  document.getElementById("enemyImage1").src =enemies[selector1];
-  if(enemies[selector1] === enemies[0]){
-    en1MaxHp = 30;
-    en1CurrentHp = en1MaxHp;
-    en1MaxMp = 10;
-    en1CurrentMp = en1MaxMp;
-    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
-    document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
-    document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
-    document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
-  }else if(enemies[selector1] === enemies[1]){
-    en1MaxHp = 50;
-    en1CurrentHp = en1MaxHp;
-    en1MaxMp = 10;
-    en1CurrentMp = en1MaxMp;
-    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
-    document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
-    document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
-    document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
-  }else if( enemies[selector1] === enemies[2]){
-    en1MaxHp = 20;
-    en1CurrentHp = en1MaxHp;
-    en1MaxMp = 5;
-    en1CurrentMp = en1MaxMp;
-    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
-    document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
-    document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
-    document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
-  }
-/*thirdEnemy*/
-  var selector2 = Math.floor(Math.random()*(enemies.length));
-  document.getElementById("enemyImage2").src =enemies[selector2];
-  if(enemies[selector2] === enemies[0]){
-    en2MaxHp = 30;
-    en2CurrentHp = en2MaxHp;
-    en2MaxMp = 10;
-    en2CurrentMp = en2MaxMp;
-    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
-    document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
-    document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
-    document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
-  }else if(enemies[selector2] === enemies[1]){
-    en2MaxHp = 50;
-    en2CurrentHp = en2MaxHp;
-    en2MaxMp = 10;
-    en2CurrentMp = en2MaxMp;
-    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
-    document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
-    document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
-    document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
-  }else if(enemies[selector2] === enemies[2]){
-    en2MaxHp = 20;
-    en2CurrentHp = en2MaxHp;
-    en2MaxMp = 5;
-    en2CurrentMp = en2MaxMp;
-    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
-    document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
-    document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
-    document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
-  }
-/*normal Attack----------------------------------------------------------------*/
-$(".actions").click(function(){
-
-  /*check if staggered*/
-  // var stagger =3;
-  // var staggerCheck = Math.floor(Math.random()*15+3);
-  // if( stagger>= staggerCheck){
-  //   console.log("staggertrigger!");
-  //   document.getElementById("staggeredTop").style.display = "block";
-  //   document.getElementById("staggeredMid").style.display = "block";
-  //   document.getElementById("staggeredBot").style.display = "block";
-  //   stagger = 0;
-  //   // acted = true;
-  // }else{
-    //these all have the same class way to simplify?
+/*WARRIOR SPECIALS-------------------------------------------------------------*/
+$("#inspire").click(function(){
+  action = inspire;
+  if(warCurrentMp < 6){
+  do$("#mainText").prepend("Your crusader does not have enough mana!<br><br>");
+}else{
+  warCurrentMp -= 6;
+  document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
+  warCurrentHp += 10;
+  document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+  wizCurrentHp += 10;
+  document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
+  rogCurrentHp += 10;
+  document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
+  warCurrentStagger -= 2;
+  wizCurrentStagger -= 2;
+  rogCurrentStagger -= 2;
+  $("#mainText").prepend("Your party's resolve has increased! 10 hp restored. Stagger reduced.<br><br>");
+}
+});
+$("#rage").click(function(){
+  if(warCurrentMp<5){
+$("#mainText").prepend("your barbarian does not have enough mana...<br><br>");
+  }else{
+    warCurrentMp -=5;
+    document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
+    action = "rage";
     document.getElementById("allies").style.display ="block";
     document.getElementById("enemies").style.display ="block";
-  // }
-    $("#allies").click(function(){
-      document.getElementById("allies").style.display ="none";
-      document.getElementById("enemies").style.display ="none";
-      document.getElementById("allyTop").style.display = "block";
-      document.getElementById("allyMid").style.display = "block";
-      document.getElementById("allyBot").style.display = "block";
+}});
+$("#darkStrike").click(function(){
+  if(warCurrentMp<5){
+    ("#mainText").prepend("your Hell Knight lacks the mana for that!<br><br>");
+  }else{
+    warCurrentMp -=5;
+    document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
+    action = "darkStrike";
+    document.getElementById("allies").style.display ="block";
+    document.getElementById("enemies").style.display ="block";
+}});
+/*WIZARD SPECIALS--------------------------------------------------------------*/
+$("#heal").click(function(){
+  if(wizCurrentMp<7){
+    $("#mainText").prepend("Your Cleric cannot muster the energy...<br><br>");
+  }else{
+    wizCurrentMp -=7;
+    document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
+  action = "heal";
+  document.getElementById("allies").style.display ="block";
+  document.getElementById("enemies").style.display ="block";
+}});
+$("#fire").click(function(){
+if(wizCurrentMp<10){
+  $("#mainText").prepend("Your party Black Mage lacks the mana...<br><br>");
+}else{
+  action = "fire";
+  wizCurrentMp -= 10;
+  document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
+  en0CurrentHp -= 10;
+  document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
+  en1CurrentHp -= 10;
+  document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
+  en2CurrentHp -= 10;
+  document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
+  $("#mainText").prepend("Fire erupts around your foes dealing 10 damage!<br><br>");
+}});
+$("#cocktail").click(function(){
+  if(wizCurrentMp<10){
+    $("#mainText").prepend("Your alchemist needs more mana to do that.<br><br>");
+  }else{
+    wizCurrentMp-=10;
+    document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
+    action = cocktail;
+  var mystery =Math.floor(Math.random()*100);
+  if(mystery<=10){
+    document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
+    warCurrentHp -= 10;
+    document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+    wizCurrentHp -= 10;
+    document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
+    rogCurrentHp -= 10;
+    document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
+    $("#mainText").prepend("The chemical concoction erupts early!<br><br>");
+  }else if(mystery<=20){
+    warCurrentHp += 10;
+    document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+    wizCurrentHp += 10;
+    document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
+    rogCurrentHp += 10;
+    document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
+    $("#mainText").prepend("A soothing mist heals your parties wounds.<br><br>");
+  }else if(mystery<=30){
+    enemyStagger +=21;
+    $("#mainText").prepend("Your opponents are caught in paralyzing fumes.<br><br>");
+  }else if(mystery<=40){
+    warCurrentMp += 10;
+    document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
+    wizCurrentMp += 10;
+    document.getElementById("wizCurrentHp").innerHTML = wizCurrentMp;
+    rogCurrentMp += 10;
+    document.getElementById("rogCurrentHp").innerHTML = rogCurrentMp;
+    $("#mainText").prepend("Strange energies restore your parties mana.<br><br>");
+  }else{
+    document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
+    en0CurrentHp -= 10;
+    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
+    en1CurrentHp -= 10;
+    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
+    en2CurrentHp -= 10;
+    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
+    $("#mainText").prepend("Alchemical fire consumes your foes dealing 10 damage!<br><br>");
 
-      $("#allyTop").click(function(){
-        var atkConfirm = Math.floor(Math.random()*(100)+1);
-        console.log("-------------------");
-        if(atkConfirm <= 15){
-          console.log("miss!");
-        }else{
-          console.log("hit!");
-          var normalAtk = Math.floor(Math.random()*(10)+1);
-          newHp0 = (en0CurrentHp - normalAtk);
-          en0CurrentHp = newHp0;
-          document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
-          console.log("newhealth" + en0CurrentHp);
-        }
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-      $("#allyMid").click(function(){
-        var atkConfirm = Math.floor(Math.random()*(100)+1);
-        console.log("-------------------");
-        if(atkConfirm <= 15){
-          console.log("miss!");
-        }else{
-          console.log("hit!");
-          var normalAtk = Math.floor(Math.random()*(10)+1);
-          newHp1 = (en1CurrentHp - normalAtk);
-          en1CurrentHp = newHp1;
-          document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
-          console.log("newhealth" + en1CurrentHp);
-        }
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-      $("#allyBot").click(function(){
-        var atkConfirm = Math.floor(Math.random()*(100)+1);
-        console.log("-------------------");
-        if(atkConfirm <= 15){
-          console.log("miss!");
-        }else{
-          console.log("hit!");
-          var normalAtk = Math.floor(Math.random()*(10)+1);
-          newHp0 = (en2CurrentHp - normalAtk);
-          en2CurrentHp = newHp0;
-          document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
-          console.log("newhealth" + en2CurrentHp);
-        }
-        document.getElementById("allyTop").style.display = "none";
-        document.getElementById("allyMid").style.display = "none";
-        document.getElementById("allyBot").style.display = "none";
-      });
-    });
-    $("#enemies").click(function(){
-      console.log("working");
-      document.getElementById("allies").style.display ="none";
-      document.getElementById("enemies").style.display ="none";
-      //these three are not working
-      document.getElementById("enTop").style.display = "block";
-      document.getElementById("enMid").style.display = "block";
-      document.getElementById("enBot").style.display = "block";
-
-      $("#enTop").click(function(){
-        var atkConfirm = Math.floor(Math.random()*(100)+1);
-        if(atkConfirm <= 15){
-          console.log("miss!");
-        }else{
-          console.log("hit!");
-          var normalAtk = Math.floor(Math.random()*(10)+1);
-          newHp0 = (en0CurrentHp - normalAtk);
-          en0CurrentHp = newHp0;
-          document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
-          console.log("newhealth" + en0CurrentHp);
-        }
-        });
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-      $("#enMid").click(function(){
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-      $("#enBot").click(function(){
-        document.getElementById("enTop").style.display = "none";
-        document.getElementById("enMid").style.display = "none";
-        document.getElementById("enBot").style.display = "none";
-      });
-
-
-
+  }}});
+/*ROGUE SPECIALS---------------------------------------------------------------*/
+$("#eviscerate").click(function(){
+  action = "eviscerate";
+  console.log("yo");
+  en0CurrentHp -= 30;
+  document.getElementById("en0CurrentHp").innerHTML= en0CurrentHp;
+  document.getElementById("allies").style.display ="block";
+  document.getElementById("enemies").style.display ="block";
 });
+$("#headShot").click(function(){
+  action = "headShot";
+  document.getElementById("allies").style.display ="block";
+  document.getElementById("enemies").style.display ="block";
+});
+$("#mug").click(function(){
+  action = "mug";
+  document.getElementById("allies").style.display ="block";
+  document.getElementById("enemies").style.display ="block";
+});
+
+/*PRIMARY TARGETS--------------------------------------------------------------*/
+$("#allies").click(function(){
+  document.getElementById("allies").style.display ="none";
+  document.getElementById("enemies").style.display ="none";
+  document.getElementById("allyTop").style.display = "block";
+  document.getElementById("allyMid").style.display = "block";
+  document.getElementById("allyBot").style.display = "block";
+});
+
+$("#enemies").click(function(){
+  document.getElementById("allies").style.display ="none";
+  document.getElementById("enemies").style.display ="none";
+  document.getElementById("enTop").style.display = "block";
+  document.getElementById("enMid").style.display = "block";
+  document.getElementById("enBot").style.display = "block";
+});
+
+/*SECONDARYTARGETS-------------------------------------------------------------*/
+$("#allyTop").click(function(){
+  closeTargets();
+  actions(warCurrentHp, "warCurrentHp", warCurrentMp, "warCurrentMp");
+});
+$("#allyMid").click(function(){
+  closeTargets();
+  actions(wizCurrentHp, "wizCurrentHp", wizCurrentMp, "wizCurrentMp");
+});
+$("#allyBot").click(function(){
+  closeTargets();
+  actions(rogCurrentHp, "rogCurrentHp", rogCurrentMp, "rogCurrentMp");
+});
+$("#enTop").click(function(){
+  closeTargets();
+  actions(en0CurrentHp, "en0CurrentHp", en0CurrentMp, "en0CurrentMp");
+});
+$("#enMid").click(function(){
+  closeTargets();
+  actions(en1CurrentHp, "en1CurrentHp", en1CurrentMp, "en0CurrentMp");
+});
+$("#enBot").click(function(){
+  closeTargets();
+  actions(en2CurrentHp, "en2CurrentHp", en2CurrentMp, "en2CurrentMp");
+});
+
+/*POST COMBAT------------------------------------------------------------------*/
 $("#allClear").click(function(){
-  console.log("working");
 if(en0CurrentHp<=0 && en1CurrentHp<=0 && en2CurrentHp<=0){
-  alert("Area Secured! Moving Forward");
+  $("#mainText").prepend("The area is secure. What next?<br><br>");
   document.getElementById("allClear").style.display = "none";
   document.getElementById("ventureForth").style.display = "none";
   document.getElementById("rest").style.display = "block";
   document.getElementById("search").style.display = "block";
 }else{
-  alert("it's too Dangerous!");
+  $("#mainText").prepend("There are still enemies nearby!<br><br>");
 }
 });
+
 $("#rest").click(function(){
-  alert("your party earns some much needed respit");
-  warCurrentHp += 50;
-  warCurrentMp += 10;
+  $("#mainText").prepend("your party earns some much needed respite.<br><br>");
+  warCurrentHp += 20;
+  document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+  warCurrentMp += 20;
+  document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
   wizCurrentHp += 20;
-  wizCurrentMp += 50;
-  rogCurrentHp += 25;
-  rogCurrentMp += 25;
+  document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
+  wizCurrentMp += 20;
+  document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
+  rogCurrentHp += 20;
+  document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
+  rogCurrentMp += 20;
+  document.getElementById("rogCurrentMp").innerHTML = rogCurrentMp;
   document.getElementById("rest").style.display = "none";
   document.getElementById("search").style.display = "none";
   document.getElementById("ventureForth").style.display = "block";
 });
+
 $("#search").click(function(){
   var events = Math.floor(Math.random()*100);
   if (events<= 3){
@@ -825,146 +616,107 @@ $("#search").click(function(){
   }
 });
 
-};
 
 
-/*END COMBAT----------------------------------------------------------------*/
-      // var atkConfirm = Math.floor(Math.random()*(100)+1);
-      // if(atkConfirm <= 15){
-      //   console.log("miss!");
-      // }else{
-      //   console.log("hit!");
-      //   var normalAtk = Math.floor(Math.random()*(10)+1);
-      //   newHp0 = (enemySelect[enemyTarget] - normalAtk);
-      //   enemySelect[enemyTarget] = newHp0;
-      //   document.getElementById("en"+enemyTarget+"CurrentHp").innerHTML = newHp0;
-      //   console.log("from array "+ enemySelect[enemyTarget]);
-      //   console.log("newhealth" + en0CurrentHp);
-      // }
-      // });
-
-
-      /*enemy fights back*/
-      /*enemy targets a character*/
-      // var charSelect = [warCurrentHp, wizCurrentHp, rogCurrentHp];
-      // var charTarget = 0;
-
-
-        // console.log(charSelect[charTarget]);
-      // }else if(atkConfirm >= 95){
-      //   console.log("critical!");
-      //   var normalAtkCrit = Math.floor(Math.random()*(15)+1);
-      //   newHp = (enemySelect[enemyTarget]-normalAtkCrit);
-      //   enemySelect[enemyTarget] = newHp;
-      //   document.getElementById("en"+enemyTarget+"CurrentHp").innerHTML = enemySelect[enemyTarget];
-      //   console.log("newHp =" + newHp);
-      //   console.log("enemySelect[] " + enemySelect[enemyTarget]);
-
-
-//     stagger ++;
-//     console.log(stagger);
-//
-//
-// /*make attack*/
-// /*targets random enemy*/
-//     var enemySelect = [en0CurrentHp, en1CurrentHp, en2CurrentHp];
-//     var enemyTarget = 0;
-//   // var enemyTarget = Math.floor(Math.random()*3);
-//     var newHp0;
-//     var newHp1;
-//     var newHp2;
-//
-//     console.log(en0CurrentHp);
-//     console.log(enemySelect[enemyTarget]);
-
-
-
-
-
-// $(".normalAtk").click(function test(){
-//
-// }
-//   $(".actions").click(function(button){
-//     console.log("heyo");
-//     var atk = document.getElementsByClassName("atks");
-//     var buff = document.getElementsByClassName("buff");
-// //aggressive
-//     if( == atks){
-//
-// //helpful
-//     }else if (helpful){
-//
-// //random
-//     }else{
-//
-//     }
-//   });
-//   $(".heavyAtk").click(function test(){
-//     var enemySelect = ["en0CurrentHp", "en1CurrentHp", "en2CurrentHp"];
-//     var enemyTarget = Math.floor(Math.random()*3);
-//     var atkConfirm = Math.floor(Math.random()*(100)+1);
-//     console.log(atkConfirm);
-//     if(atkConfirm <= 25){
-//       console.log("miss");
-//     }else if(atkConfirm >= 85){
-//       console.log("critical!");
-//       var normalAtkCrit = Math.floor(Math.random()*(25)+1);
-//       var newHp = (en0CurrentHp - normalAtkCrit);
-//       en0CurrentHp = newHp;
-//       document.getElementById("en0CurrentHp").innerHTML = newHp;
-//     }else{
-//       console.log("normalDamage");
-//       var normalAtk = Math.floor(Math.random()*(15)+1);
-//       newHp = (en0CurrentHp - normalAtk);
-//       en0CurrentHp = newHp;
-//       console.log("modified health " + newHp);
-//       document.getElementById("en0CurrentHp").innerHTML = newHp;
-//     }
-// });
-  //
-  // document.getElementById("fastAtk").onclick = function fastAtk(){
-  //   var enemySelect = ["en0CurrentHp", "en1CurrentHp", "en2CurrentHp"];
-  //   var enemyTarget = Math.floor(Math.random()*3);
-  //   var atks = Math.floor((Math.random()*5)+1);
-  //   console.log(atks);
-  //   for (i=0; i<atks; i++){
-  //   var atkConfirm = Math.floor(Math.random()*(100)+1);
-  //   console.log(atkConfirm);
-  //   if(atkConfirm <= 20){
-  //     console.log("miss");
-  //   }else if(atkConfirm >= 95){
-  //     console.log("critical!");
-  //     var normalAtkCrit = Math.floor(Math.random()*(7)+1);
-  //     var newHp = (en0CurrentHp - normalAtkCrit);
-  //     en0CurrentHp = newHp;
-  //     document.getElementById("en0CurrentHp").innerHTML = newHp;
-  //   }else{
-  //     console.log("normalDamage");
-  //     var normalAtk = Math.floor(Math.random()*(5)+1);
-  //     var newHp = (en0CurrentHp - normalAtk);
-  //     en0CurrentHp = newHp;
-  //     console.log("modified health " + newHp);
-  //     document.getElementById("en0CurrentHp").innerHTML = newHp;
-  //
-  // }}};
-/*enemyGenerator*/
-//DevNote: can't make it out of a loop: targeting appropriate ids
-// document.getElementById("ventureForth").onclick = function(){
-//   for(var i = 0; i<3; i++){
-//     var selector = Math.floor(Math.random()*(enemies.length));
-//     var imgI = "enemyImage"+i;
-//     console.log(imgI);
-//     document.getElementById(imgI).src=enemies[selector];
-//     console.log(selector);
-//     console.log(enemies[selector]);
-//   }
-
-  // document.getElementById("enemyImage2").src="assets/images/banditLeader.jpg";
-  // document.getElementById("enemyImage3").src="assets/images/bandit.jpg";
-
+$("#ventureForth").click(function enemyGen(){
+  document.getElementById("allClear").style.display = "block";
+  var selector0 = Math.floor(Math.random()*(enemies.length));
+  document.getElementById("enemyImage0").src = enemies[selector0];
+  if(enemies[selector0] === enemies[0]){
+    en0MaxHp = 30;
+    en0CurrentHp = 30;
+    en0MaxMp = 10;
+    en0CurrentMp = 10;
+    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
+    document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
+    document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
+    document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
+  }else if(enemies[selector0] === enemies[1]){
+     en0MaxHp = 50;
+     en0CurrentHp = 50;
+     en0MaxMp = 10;
+     en0CurrentMp = 10;
+    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
+    document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
+    document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
+    document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
+  }else if(enemies[selector0] === enemies[2]){
+    en0MaxHp = 20;
+    en0CurrentHp = 20;
+    en0MaxMp = 5;
+    en0CurrentMp = 5;
+    document.getElementById("en0CurrentHp").innerHTML = en0CurrentHp;
+    document.getElementById("en0MaxHp").innerHTML = en0MaxHp;
+    document.getElementById("en0CurrentMp").innerHTML = en0CurrentMp;
+    document.getElementById("en0MaxMp").innerHTML = en0MaxMp;
+  }
+  /*secondEnemy*/
+  var selector1 = Math.floor(Math.random()*(enemies.length));
+  document.getElementById("enemyImage1").src =enemies[selector1];
+  if(enemies[selector1] === enemies[0]){
+    en1MaxHp = 30;
+    en1CurrentHp = 30;
+    en1MaxMp = 10;
+    en1CurrentMp = 10;
+    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
+    document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
+    document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
+    document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
+  }else if(enemies[selector1] === enemies[1]){
+    en1MaxHp = 50;
+    en1CurrentHp = 50;
+    en1MaxMp = 10;
+    en1CurrentMp = 10;
+    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
+    document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
+    document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
+    document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
+  }else if( enemies[selector1] === enemies[2]){
+    en1MaxHp = 20;
+    en1CurrentHp = 20;
+    en1MaxMp = 5;
+    en1CurrentMp = 5;
+    document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
+    document.getElementById("en1MaxHp").innerHTML = en1MaxHp;
+    document.getElementById("en1CurrentMp").innerHTML = en1CurrentMp;
+    document.getElementById("en1MaxMp").innerHTML = en1MaxMp;
+  }
+/*thirdEnemy*/
+  var selector2 = Math.floor(Math.random()*(enemies.length));
+  document.getElementById("enemyImage2").src =enemies[selector2];
+  if(enemies[selector2] === enemies[0]){
+    en2MaxHp = 30;
+    en2CurrentHp = 30;
+    en2MaxMp = 10;
+    en2CurrentMp = 10;
+    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
+    document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
+    document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
+    document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
+  }else if(enemies[selector2] === enemies[1]){
+    en2MaxHp = 50;
+    en2CurrentHp = 50;
+    en2MaxMp = 10;
+    en2CurrentMp = 10;
+    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
+    document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
+    document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
+    document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
+  }else if(enemies[selector2] === enemies[2]){
+    en2MaxHp = 20;
+    en2CurrentHp = 20;
+    en2MaxMp = 5;
+    en2CurrentMp = 5;
+    document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
+    document.getElementById("en2MaxHp").innerHTML = en2MaxHp;
+    document.getElementById("en2CurrentMp").innerHTML = en2CurrentMp;
+    document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
+  }
+});
 /*specialMoves-----------------------------------------------------------------*/
 /*MUG*/
-$("#mug").click(function(){
+$("#mug").click(function mug(x,y,w,z){
+  action = mug;
     var steal = Math.floor(Math.random()*100+1);
     var damage = Math.floor(Math.random()*5+3);
     if( steal <=25){
@@ -972,20 +724,18 @@ $("#mug").click(function(){
     }else if(steal <=50){
       potionHp++;
       document.getElementById("potionHpRemaining").innerHTML = potionHp;
-      alert("you stole a health potion");
+      $("#mainText").prepend("your thief stole a health potion!<br><br>");
+
     }else if(steal <= 75){
       potionMp++;
-      document.getElementById("potionMpRemaining").innerHTML = potionMp;
-      alert("you stole a mana potion");
+      document.getElementById("your thief stole a mana potion!").innerHTML = potionMp;
+      $("#mainText").prepend("your thief stole a mana potion!<br><br>");
     }else{
       bomb++;
-      document.getElementById("bombRemaining").innerHTML = bomb;
-      alert("you stole a bomb");
+      document.getElementById("your thief stole a bomb").innerHTML = bomb;
+      $("#mainText").prepend("your thief stole a bomb!<br><br>");
     }
-
-
 });
-
 
 
 
@@ -1010,3 +760,133 @@ window.onclick = function(event) {
         modalInv.style.display = "none";
     }
 };
+
+/*function declaration---------------------------------------------------------*/
+function actions(x,y,w,z){
+  if(action === "healthPotion"){
+    healthPotion(x,y,w,z);
+  }else if(action === "manaPotion"){
+    manaPotion(x,y,w,z);
+  }else if(action === "bomb"){
+    bombFunc(x,y,w,z);
+  }else if(action === "normalAttack"){
+    normalAttack(x,y,w,z);
+  }else if(action === "heavyAttack"){
+    heavyAttack(x,y,w,z);
+  }else if(action === "fastAttack"){
+    fastAttack(x,y,w,z);
+  }else if(action === "inspire"){
+    inspire(x,y,w,z);
+  }else if(action === "rage"){
+    rage(x,y,w,z);
+  }else if(action === "darkStrike"){
+    darkStrike(x,y,w,z);
+  }else if(action === "heal"){
+    heal(x,y,w,z);
+  }else if(action === "fire"){
+    fire(x,y,w,z);
+  }else if(action === "cocktail"){
+    cocktail(x,y,w,z);
+  }else if(action === "mug"){
+    mug(x,y,w,z);
+  }else if(action === "eviscerate"){
+    eviscerate(x,y,w,z);
+  }else if(action === "headShot"){
+    headShot(x,y,w,z);
+  }
+}
+
+
+function healthPotion(x,y,w,z){
+  x += 25;
+
+  document.getElementById(y).innerHTML = x;
+}
+
+function manaPotion(x,y,w,z){
+  w += 15;
+  document.getElementById(z).innerHTML = w;
+}
+
+function bombFunc(x,y,w,z){
+  x -= 20;
+  document.getElementById(y).innerHTML = x;
+}
+
+function normalAttack(x,y){
+  var atkConfirm = Math.floor(Math.random()*(100)+1);
+  if(atkConfirm <= 15){
+    $("#mainText").prepend("your hero missed!<br><br>");
+  }else{
+    var normalAtk = Math.floor(Math.random()*(10)+1);
+    x -= normalAtk;
+    document.getElementById(y).innerHTML = x;
+    $("#mainText").prepend("your hero did " +normalAtk+" damage!<br><br>");
+  }
+}
+
+function heavyAttack(x,y){
+  var atkConfirm = Math.floor(Math.random()*(100)+1);
+  if(atkConfirm <= 25){
+  }else{
+    var normalAtk = Math.floor(Math.random()*(20)+1);
+    newHp0 = (x - normalAtk);
+    x = newHp0;
+    document.getElementById(y).innerHTML = x;
+  }
+}
+
+function fastAttack(x,y){
+  var atkConfirm = Math.floor(Math.random()*(100)+1);
+  if(atkConfirm <= 25){
+
+    }else{
+      var normalAtk = Math.floor(Math.random()*(20)+1);
+    newHp0 = (x - normalAtk);
+    x = newHp0;
+    document.getElementById(y).innerHTML = x;
+    }
+}
+
+function rage(x,y,w,z){
+  console.log(x);
+  console.log(y);
+  var rageAtk = Math.floor(Math.random()*5 + ((warMaxHp/warCurrentHp)*(Math.random()*7)));
+  x -= rageAtk;
+  document.getElementById(y).innerHTML = x;
+  $("#mainText").prepend("Your Barbarian rages for "+rageAtk+" damage!<br><br>");
+}
+
+function darkStrike(x,y,w,z){
+  var dSAtk = Math.floor(Math.random()*30+5);
+  x -= dSAtk;
+  document. getElementById(y).innerHTML = x;
+  warCurrentHp -= (dSAtk/4);
+  document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+  $("#mainText").prepend("The Hell Knight deals "+dSAtk+" damage, but is wracked with dark energies!<br><br>");
+}
+
+function heal(x,y,w,z){
+  var heal = Math.floor(Math.random()*10+30);
+  x += heal;
+  document.getElementById(y).innerHTML = x;
+  $("#mainText").prepend("A divine force invigorates the Clerics target for "+heal+" health!<br><br>");
+}
+
+function mug(x,y,w,z){
+
+}
+
+function headShot(x,y,w,z){
+
+}
+
+
+function closeTargets(){
+  document.getElementById("enTop").style.display = "none";
+  document.getElementById("enMid").style.display = "none";
+  document.getElementById("enBot").style.display = "none";
+  document.getElementById("allyTop").style.display = "none";
+  document.getElementById("allyMid").style.display = "none";
+  document.getElementById("allyBot").style.display = "none";
+}
