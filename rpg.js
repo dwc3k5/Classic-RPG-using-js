@@ -1,15 +1,4 @@
-// $("#test").click(function(){
-//   console.log("test");
-// document.getElementById("enTop").style.display = "block";
-// document.getElementById("enMid").style.display = "block";
-// document.getElementById("enBot").style.display = "block";
-// document.getElementById("allyTop").style.display = "block";
-// document.getElementById("allyMid").style.display = "block";
-// document.getElementById("allyBot").style.display = "block";
-// });
-// document.getElementById("test2").onclick = function(){
-//   console.log(test);
-// };
+
 /*variables--------------------------------------------------------------------*/
 /*variables---Inventory--------------------------------------------------------*/
 var x;
@@ -21,6 +10,8 @@ var potionMp = 5;
 var bomb = 5;
 /*variables---triggers?--------------------------------------------------------*/
 var action;
+var target;
+var retTarget;
 
 /*variables---Characters-------------------------------------------------------*/
 /*ChosenWarrior----------------------------------------------------------------*/
@@ -44,14 +35,14 @@ var wizCurrentStagger = 0;
 
 var wizStr;
 var wizDex;
-var warInt;
+var wizInt;
 /*ChosenRogue------------------------------------------------------------------*/
 var rogChosen = false;
 var rogCurrentHp;
 var rogMaxHp;
 var rogCurrentMp;
 var rogMaxMp;
-rogCurrentStagger = 0 ;
+var rogCurrentStagger = 0 ;
 
 var rogStr;
 var rogDex;
@@ -61,23 +52,26 @@ var rogInt;
 /*variables---Enemies----------------------------------------------------------*/
 var enemies = ["assets/images/bandit.jpg", "assets/images/banditLeader.jpg", "assets/images/wolf.jpg"];
 /*en0--------------------------------------------------------------------------*/
-var en0CurrentHp;
+var en0CurrentHp = 0;
 var en0MaxHp;
 var en0CurrentMp;
 var en0MaxMp;
+var en0 = true;
 /*en1--------------------------------------------------------------------------*/
 var en1CurrentHp;
 var en1MaxHp;
 var en1CurrentMp;
 var en1MaxMp;
+var en1 = true;
 /*en2--------------------------------------------------------------------------*/
 var en2CurrentHp;
 var en2MaxHp;
 var en2CurrentMp;
 var en2MaxMp;
+var en2 = true;
 
 /*variables---Misc-------------------------------------------------------------*/
-enemyStagger = 0;
+enStagger = 0;
 
 
 document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
@@ -120,6 +114,7 @@ document.getElementById("barbarianChoice").onclick =function(){
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
   document.getElementById("rage").style.display = "flex";
   document.getElementById("BtnWarrior").style.display = "none";
+  modalWar.style.display = "none";
   $("#mainText").prepend("A barbarian has joined your cause!<br><br>");
   warChosen = true;
 };
@@ -135,6 +130,7 @@ document.getElementById("crusaderChoice").onclick =function(){
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
   document.getElementById("inspire").style.display = "flex";
   document.getElementById("BtnWarrior").style.display = "none";
+  modalWar.style.display = "none";
   $("#mainText").prepend("A crusader pledges themself to your cause!<br><br>");
   warChosen = true;
 };
@@ -150,6 +146,7 @@ document.getElementById("hellKnightChoice").onclick =function(){
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
   document.getElementById("darkStrike").style.display = "flex";
   document.getElementById("BtnWarrior").style.display = "none";
+  modalWar.style.display = "none";
   $("#mainText").prepend("A Hell Knight will aid you... for now.<br><br>");
   warChosen = true;
 };
@@ -183,6 +180,7 @@ document.getElementById("clericChoice").onclick =function(){
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
   document.getElementById("heal").style.display = "flex";
   document.getElementById("BtnWizard").style.display = "none";
+  modalWiz.style.display = "none";
   $("#mainText").prepend("The Gods have sent a holy man to aid you.<br><br>");
   wizChosen = true;
 };
@@ -198,6 +196,7 @@ document.getElementById("blackMageChoice").onclick =function(){
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
   document.getElementById("fire").style.display = "flex";
   document.getElementById("BtnWizard").style.display = "none";
+  modalWiz.style.display = "none";
   $("#mainText").prepend("Energy crackles around you as a black mage nods in agreement.<br><br>");
   wizChosen = true;
 };
@@ -213,6 +212,7 @@ document.getElementById("alchemistChoice").onclick =function(){
   document.getElementById("wizMaxMp").innerHTML = wizMaxMp;
   document.getElementById("cocktail").style.display = "flex";
   document.getElementById("BtnWizard").style.display = "none";
+  modalWiz.style.display = "none";
   $("#mainText").prepend("Nevermind the scorch marks on the front lawn... or the missing fingers... this alchemist clearly knows what they're doing!<br><br>");
   wizChosen = true;
 };
@@ -246,6 +246,7 @@ document.getElementById("assassinChoice").onclick =function(){
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
   document.getElementById("eviscerate").style.display ="flex";
   document.getElementById("BtnRogue").style.display = "none";
+  modalRog.style.display = "none";
   $("#mainText").prepend("So he didn't say anything to you... but you aren't dead! so there's that.<br><br>");
   rogChosen = true;
 };
@@ -261,6 +262,7 @@ document.getElementById("rangerChoice").onclick =function(){
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
   document.getElementById("headShot").style.display = "flex";
   document.getElementById("BtnRogue").style.display = "none";
+  modalRog.style.display = "none";
   $("#mainText").prepend("He made you ask his wolf for approval, but that one wolf means he still has more friends than you.<br><br>");
   rogChosen = true;
 };
@@ -276,6 +278,7 @@ document.getElementById("thiefChoice").onclick = function(){
   document.getElementById("rogMaxMp").innerHTML = rogMaxMp;
   document.getElementById("mug").style.display = "flex";
   document.getElementById("BtnRogue").style.display = "none";
+  modalRog.style.display = "none";
   $("#mainText").prepend("Dear Diary, I'm not so sure about this thief. He didn't even once try to go for my coinpurse. He fumbled his daggers a few times. Shoddy work. One moment, I need to get my second ink vial to finish this mes.......*damnit*<br><br>");
   rogChosen =true;
 };
@@ -288,8 +291,8 @@ $("#potionHp").click(function(){
   potionHp--;
   document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
   modalInv.style.display = "none";
-  document.getElementById("allies").style.display ="block";
-  document.getElementById("enemies").style.display ="block";
+  document.getElementById("allies").style.display ="inline-block";
+  document.getElementById("enemies").style.display ="inline-block";
 }});
 
 $("#potionMp").click(function(){
@@ -298,8 +301,8 @@ $("#potionMp").click(function(){
     potionMp--;
     document.getElementById("potionMpRemaining").innerHTML = "X " + potionMp;
     modalInv.style.display = "none";
-    document.getElementById("allies").style.display ="block";
-    document.getElementById("enemies").style.display ="block";
+    document.getElementById("allies").style.display ="inline-block";
+    document.getElementById("enemies").style.display ="inline-block";
 }});
 
 $("#bomb").click(function(){
@@ -308,24 +311,24 @@ $("#bomb").click(function(){
   bomb--;
   document.getElementById("bombRemaining").innerHTML = "X " + bomb;
   modalInv.style.display = "none";
-  document.getElementById("allies").style.display ="block";
-  document.getElementById("enemies").style.display ="block";
+  document.getElementById("allies").style.display ="inline-block";
+  document.getElementById("enemies").style.display ="inline-block";
 }});
 /*GENERIC ACTIONS--------------------------------------------------------------*/
 $(".normalAtk").click(function(){
  action = "normalAttack";
- document.getElementById("allies").style.display ="block";
- document.getElementById("enemies").style.display ="block";
+ document.getElementById("allies").style.display ="inline-block";
+ document.getElementById("enemies").style.display ="inline-block";
 });
 $(".heavyAtk").click(function(){
  action = "heavyAttack";
- document.getElementById("allies").style.display ="block";
- document.getElementById("enemies").style.display ="block";
+ document.getElementById("allies").style.display ="inline-block";
+ document.getElementById("enemies").style.display ="inline-block";
 });
 $(".fastAtk").click(function(){
  action = "fastAttack";
- document.getElementById("allies").style.display ="block";
- document.getElementById("enemies").style.display ="block";
+ document.getElementById("allies").style.display ="inline-block";
+ document.getElementById("enemies").style.display ="inline-block";
 });
 
 /*WARRIOR SPECIALS-------------------------------------------------------------*/
@@ -334,6 +337,7 @@ $("#inspire").click(function(){
   if(warCurrentMp < 6){
   do$("#mainText").prepend("Your crusader does not have enough mana!<br><br>");
 }else{
+  warChosen=false;
   warCurrentMp -= 6;
   document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
   warCurrentHp += 10;
@@ -346,22 +350,24 @@ $("#inspire").click(function(){
   wizCurrentStagger -= 2;
   rogCurrentStagger -= 2;
   $("#mainText").prepend("Your party's resolve has increased! 10 hp restored. Stagger reduced.<br><br>");
-}
-});
+  retaliation();
+}});
 $("#rage").click(function(){
   if(warCurrentMp<5){
 $("#mainText").prepend("your barbarian does not have enough mana...<br><br>");
   }else{
+    warChosen=false;
     warCurrentMp -=5;
     document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
     action = "rage";
-    document.getElementById("allies").style.display ="block";
-    document.getElementById("enemies").style.display ="block";
+    document.getElementById("allies").style.display ="inline-block";
+    document.getElementById("enemies").style.display ="inline-block";
 }});
 $("#darkStrike").click(function(){
   if(warCurrentMp<5){
     ("#mainText").prepend("your Hell Knight lacks the mana for that!<br><br>");
   }else{
+    warChosen=false;
     warCurrentMp -=5;
     document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
     action = "darkStrike";
@@ -369,10 +375,12 @@ $("#darkStrike").click(function(){
     document.getElementById("enemies").style.display ="block";
 }});
 /*WIZARD SPECIALS--------------------------------------------------------------*/
+//health not sticking
 $("#heal").click(function(){
   if(wizCurrentMp<7){
     $("#mainText").prepend("Your Cleric cannot muster the energy...<br><br>");
   }else{
+    wizChosen=false;
     wizCurrentMp -=7;
     document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
   action = "heal";
@@ -393,11 +401,16 @@ if(wizCurrentMp<10){
   en2CurrentHp -= 10;
   document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
   $("#mainText").prepend("Fire erupts around your foes dealing 10 damage!<br><br>");
-}});
+  retaliation();
+  enStagger++;
+  wizChosen=false;
+}
+});
 $("#cocktail").click(function(){
   if(wizCurrentMp<10){
     $("#mainText").prepend("Your alchemist needs more mana to do that.<br><br>");
   }else{
+    wizChosen=false;
     wizCurrentMp-=10;
     document.getElementById("wizCurrentMp").innerHTML = wizCurrentMp;
     action = cocktail;
@@ -405,10 +418,13 @@ $("#cocktail").click(function(){
   if(mystery<=10){
     document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
     warCurrentHp -= 10;
+    warCurrentStagger++;
     document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
     wizCurrentHp -= 10;
+    wizCurrentStagger++;
     document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
     rogCurrentHp -= 10;
+    rogCurrentStagger++;
     document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
     $("#mainText").prepend("The chemical concoction erupts early!<br><br>");
   }else if(mystery<=20){
@@ -438,70 +454,110 @@ $("#cocktail").click(function(){
     document.getElementById("en1CurrentHp").innerHTML = en1CurrentHp;
     en2CurrentHp -= 10;
     document.getElementById("en2CurrentHp").innerHTML = en2CurrentHp;
+    enStagger++;
     $("#mainText").prepend("Alchemical fire consumes your foes dealing 10 damage!<br><br>");
-
-  }}});
+  }
+  retaliation();
+  }});
 /*ROGUE SPECIALS---------------------------------------------------------------*/
 $("#eviscerate").click(function(){
+  if(rogCurrentMp<4){
+    $("#mainText").prepend("Your assassin needs more mana to do that.<br><br>");
+  }else{
+    rogChosen=false;
+    rogCurrentMp -=4;
+    document.getElementById("rogCurrentMp").innerHTML = rogCurrentMp;
   action = "eviscerate";
-  console.log("yo");
-  en0CurrentHp -= 30;
-  document.getElementById("en0CurrentHp").innerHTML= en0CurrentHp;
   document.getElementById("allies").style.display ="block";
   document.getElementById("enemies").style.display ="block";
-});
+
+}});
 $("#headShot").click(function(){
+  if(rogCurrentMp<4){
+    $("#mainText").prepend("Your ranger needs more mana to do that.<br><br>");
+  }else{
+    rogChosen = false;
+    rogCurrentMp -=4;
+    document.getElementById("rogCurrentMp").innerHTML = rogCurrentMp;
   action = "headShot";
-  document.getElementById("allies").style.display ="block";
-  document.getElementById("enemies").style.display ="block";
-});
+  document.getElementById("allies").style.display ="inline-block";
+  document.getElementById("enemies").style.display ="inline-block";
+
+}});
 $("#mug").click(function(){
+  if(rogCurrentMp<4){
+    $("#mainText").prepend("Your thief needs more mana to do that.<br><br>");
+  }else{
+    rogChosen=false;
+    rogCurrentMp -=4;
+    document.getElementById("rogCurrentMp").innerHTML = rogCurrentMp;
   action = "mug";
-  document.getElementById("allies").style.display ="block";
-  document.getElementById("enemies").style.display ="block";
-});
+  document.getElementById("allies").style.display ="inline-block";
+  document.getElementById("enemies").style.display ="inline-block";
+
+}});
 
 /*PRIMARY TARGETS--------------------------------------------------------------*/
 $("#allies").click(function(){
   document.getElementById("allies").style.display ="none";
   document.getElementById("enemies").style.display ="none";
-  document.getElementById("allyTop").style.display = "block";
-  document.getElementById("allyMid").style.display = "block";
-  document.getElementById("allyBot").style.display = "block";
+  document.getElementById("allyTop").style.display = "inline-block";
+  document.getElementById("allyMid").style.display = "inline-block";
+  document.getElementById("allyBot").style.display = "inline-block";
 });
 
 $("#enemies").click(function(){
   document.getElementById("allies").style.display ="none";
   document.getElementById("enemies").style.display ="none";
-  document.getElementById("enTop").style.display = "block";
-  document.getElementById("enMid").style.display = "block";
-  document.getElementById("enBot").style.display = "block";
+  document.getElementById("enTop").style.display = "inline-block";
+  document.getElementById("enMid").style.display = "inline-block";
+  document.getElementById("enBot").style.display = "inline-block";
 });
 
 /*SECONDARYTARGETS-------------------------------------------------------------*/
 $("#allyTop").click(function(){
+  target = 0;
   closeTargets();
   actions(warCurrentHp, "warCurrentHp", warCurrentMp, "warCurrentMp");
+  retaliation();
+  targetChoice();
 });
 $("#allyMid").click(function(){
+  target = 1;
   closeTargets();
   actions(wizCurrentHp, "wizCurrentHp", wizCurrentMp, "wizCurrentMp");
+  retaliation();
+  targetChoice();
+
 });
 $("#allyBot").click(function(){
+  target =2;
   closeTargets();
   actions(rogCurrentHp, "rogCurrentHp", rogCurrentMp, "rogCurrentMp");
+  retaliation();
+  targetChoice();
 });
 $("#enTop").click(function(){
+    target = 3;
   closeTargets();
   actions(en0CurrentHp, "en0CurrentHp", en0CurrentMp, "en0CurrentMp");
+  targetChoice();
+  retaliation();
+
 });
 $("#enMid").click(function(){
+  target = 4;
   closeTargets();
   actions(en1CurrentHp, "en1CurrentHp", en1CurrentMp, "en0CurrentMp");
+  retaliation();
+  targetChoice();
 });
 $("#enBot").click(function(){
+  target = 5;
   closeTargets();
   actions(en2CurrentHp, "en2CurrentHp", en2CurrentMp, "en2CurrentMp");
+  retaliation();
+  targetChoice();
 });
 
 /*POST COMBAT------------------------------------------------------------------*/
@@ -539,34 +595,37 @@ $("#rest").click(function(){
 $("#search").click(function(){
   var events = Math.floor(Math.random()*100);
   if (events<= 3){
-    alert("your warrior stepped on a bear trap!");
+    $("#mainText").prepend("your warrior stepped on a bear trap!<br><br>");
     warCurrentHp -= 20;
+    warCurrentStagger +=5;
     document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
     document.getElementById("rest").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else if (events <= 6){
-    alert("your wizard misread an incantation!");
+    $("#mainText").prepend("your wizard misread an incantation!<br><br>");
     wizCurrentHp -=5;
     document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
     wizCurrentMP -=10;
+    wizCurrentStagger +=5;
     document.getElementById("wizCurrentMP").innerHTML = wizCurrentMP;
     document.getElementById("rest").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else if (events <= 10){
-    alert("your rogue was caught Stealing!");
+    $("#mainText").prepend("your rogue was caught stealing!<br><br>");
     potionHp -=2;
     document.getElementById("potionHpRemaining").innerHTML = potionHp;
     potionMp -=2;
     document.getElementById("potionMpRemaining").innerHTML = potionMp;
     bomb -=2;
+    rogCurrentStagger +=5;
     document.getElementById("bombRemaining").innerHTML = bomb;
     document.getElementById("rest").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else if (events <= 25){
-    alert("you find an abandoned pouch");
+    $("#mainText").prepend("you find an abandoned pouch!<br><br>");
     potionHp +=1;
     document.getElementById("potionHpRemaining").innerHTML = potionHp;
     potionMp +=1;
@@ -577,28 +636,28 @@ $("#search").click(function(){
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else if(events <= 50){
-    alert("a friendly villager offers aid");
+    $("#mainText").prepend("a friendly villager offers aid and gives you health potions!<br><br>");
     potionHp +=5;
     document.getElementById("potionHpRemaining").innerHTML = potionHp;
     document.getElementById("rest").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else if(events <=50){
-    alert("your rogue finds a weapons cache");
+    $("#mainText").prepend("your rogue finds an explosives caches!<br><br>");
     bomb +=5;
     document.getElementById("bombRemaining").innerHTML = bomb;
     document.getElementById("rest").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else if(events <=75){
-    alert("your mages successfully conjures potions");
+    $("#mainText").prepend("your wizard conjures more mana potions!<br><br>");
     potionMp +=5;
     document.getElementById("potionMpRemaining").innerHTML = potionMp;
     document.getElementById("rest").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else if (events <= 95){
-    alert("an unseen force guides you");
+    $("#mainText").prepend("An unseen force guides you!<br><br>");
     potionHp +=5;
     document.getElementById("potionHpRemaining").innerHTML = potionHp;
     potionMp +=5;
@@ -609,7 +668,7 @@ $("#search").click(function(){
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
   }else{
-    alert("after searching, you find nothing...");
+    $("#mainText").prepend("after searching, you find... nothing...!<br><br>");
     document.getElementById("rest").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("ventureForth").style.display = "block";
@@ -619,6 +678,7 @@ $("#search").click(function(){
 
 
 $("#ventureForth").click(function enemyGen(){
+  document.getElementById("ventureForth").style.display = "none";
   document.getElementById("allClear").style.display = "block";
   var selector0 = Math.floor(Math.random()*(enemies.length));
   document.getElementById("enemyImage0").src = enemies[selector0];
@@ -713,31 +773,6 @@ $("#ventureForth").click(function enemyGen(){
     document.getElementById("en2MaxMp").innerHTML = en2MaxMp;
   }
 });
-/*specialMoves-----------------------------------------------------------------*/
-/*MUG*/
-$("#mug").click(function mug(x,y,w,z){
-  action = mug;
-    var steal = Math.floor(Math.random()*100+1);
-    var damage = Math.floor(Math.random()*5+3);
-    if( steal <=25){
-      // nothing happened
-    }else if(steal <=50){
-      potionHp++;
-      document.getElementById("potionHpRemaining").innerHTML = potionHp;
-      $("#mainText").prepend("your thief stole a health potion!<br><br>");
-
-    }else if(steal <= 75){
-      potionMp++;
-      document.getElementById("your thief stole a mana potion!").innerHTML = potionMp;
-      $("#mainText").prepend("your thief stole a mana potion!<br><br>");
-    }else{
-      bomb++;
-      document.getElementById("your thief stole a bomb").innerHTML = bomb;
-      $("#mainText").prepend("your thief stole a bomb!<br><br>");
-    }
-});
-
-
 
 /*Modalinventory---------------------------------------------------------------------------------------*/
 var modalInv = document.getElementById("myInventory");
@@ -763,6 +798,7 @@ window.onclick = function(event) {
 
 /*function declaration---------------------------------------------------------*/
 function actions(x,y,w,z){
+  console.log("739:start actions function x = " + x);
   if(action === "healthPotion"){
     healthPotion(x,y,w,z);
   }else if(action === "manaPotion"){
@@ -795,64 +831,96 @@ function actions(x,y,w,z){
     headShot(x,y,w,z);
   }
 }
-
+function targetChoice(){
+  console.log("target = "+target);
+  if(target === 0){
+    warCurrentHp = window.x;
+  }else if(target === 1){
+    wizCurrentHp = window.x;
+  }else if(target === 2){
+    rogCurrentHp = window.x;
+  }else if(target === 3){
+    en0CurrentHp = window.x;
+  }else if(target === 4){
+    en1CurrentHp = window.x;
+  }else if(target === 5){
+    en2CurrentHp = window.x;
+  }else{
+    alert("targetChoice Error");
+  }
+}
 
 function healthPotion(x,y,w,z){
   x += 25;
-
+  window.x = x;
   document.getElementById(y).innerHTML = x;
 }
 
 function manaPotion(x,y,w,z){
   w += 15;
-  document.getElementById(z).innerHTML = w;
+  window.w = w;
+  document.getElementById(z).innerHTML = window.w;
 }
 
 function bombFunc(x,y,w,z){
   x -= 20;
+  window.x = x;
   document.getElementById(y).innerHTML = x;
+  enStagger++;
 }
 
-function normalAttack(x,y){
+function normalAttack(x,y,w,z){
   var atkConfirm = Math.floor(Math.random()*(100)+1);
   if(atkConfirm <= 15){
+    window.x = x;
     $("#mainText").prepend("your hero missed!<br><br>");
   }else{
     var normalAtk = Math.floor(Math.random()*(10)+1);
     x -= normalAtk;
+    window.x = x;
     document.getElementById(y).innerHTML = x;
+    enStagger++;
     $("#mainText").prepend("your hero did " +normalAtk+" damage!<br><br>");
   }
 }
 
-function heavyAttack(x,y){
+function heavyAttack(x,y,w,z){
   var atkConfirm = Math.floor(Math.random()*(100)+1);
-  if(atkConfirm <= 25){
+  if(atkConfirm <= 30){
+    window.x = x;
+    $("#mainText").prepend("your hero missed!<br><br>");
   }else{
-    var normalAtk = Math.floor(Math.random()*(20)+1);
-    newHp0 = (x - normalAtk);
-    x = newHp0;
+    var heavyAtk = Math.floor(Math.random()*(20)+1);
+    x -= heavyAtk;
+    window.x = x;
+    enStagger +=3;
+    $("#mainText").prepend("your hero slammed the target for "+heavyAtk+" damage.<br><br>");
     document.getElementById(y).innerHTML = x;
   }
 }
 
-function fastAttack(x,y){
+function fastAttack(x,y,w,z){
+  var flurry= Math.floor(Math.random*5+1);
+  for( i=0; i<flurry; i++){
   var atkConfirm = Math.floor(Math.random()*(100)+1);
-  if(atkConfirm <= 25){
-
+  if(atkConfirm <= 20){
+      window.x = x;
+      $("#mainText").prepend("your hero missed!<br><br>");
     }else{
-      var normalAtk = Math.floor(Math.random()*(20)+1);
-    newHp0 = (x - normalAtk);
-    x = newHp0;
+      var fastAtk = Math.floor(Math.random()*(3)+1);
+    x -= fastAtk;
+    window.x = x;
+    enStagger++;
+      $("#mainText").prepend("your hero lashed out for "+fastAtk+" damage.<br><br>");
     document.getElementById(y).innerHTML = x;
     }
-}
+}}
 
 function rage(x,y,w,z){
-  console.log(x);
-  console.log(y);
   var rageAtk = Math.floor(Math.random()*5 + ((warMaxHp/warCurrentHp)*(Math.random()*7)));
   x -= rageAtk;
+  window.x = x;
+  enStagger++;
   document.getElementById(y).innerHTML = x;
   $("#mainText").prepend("Your Barbarian rages for "+rageAtk+" damage!<br><br>");
 }
@@ -860,6 +928,8 @@ function rage(x,y,w,z){
 function darkStrike(x,y,w,z){
   var dSAtk = Math.floor(Math.random()*30+5);
   x -= dSAtk;
+  window.x = x;
+  enStagger++;
   document. getElementById(y).innerHTML = x;
   warCurrentHp -= (dSAtk/4);
   document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
@@ -869,18 +939,207 @@ function darkStrike(x,y,w,z){
 function heal(x,y,w,z){
   var heal = Math.floor(Math.random()*10+30);
   x += heal;
+  window.x = x;
   document.getElementById(y).innerHTML = x;
   $("#mainText").prepend("A divine force invigorates the Clerics target for "+heal+" health!<br><br>");
 }
 
 function mug(x,y,w,z){
-
+  var steal = Math.floor(Math.random()*100+1);
+  var mAtk = Math.floor(Math.random()*5+3);
+  enStagger++;
+  if( steal <=25){
+    $("#mainText").prepend("Your thief failed to steal anything.<br><br>");
+  }else if(steal <=50){
+    potionHp++;
+    document.getElementById("potionHpRemaining").innerHTML = potionHp;
+    $("#mainText").prepend("your thief stole a health potion!<br><br>");
+  }else if(steal <= 75){
+    potionMp++;
+    document.getElementById("potionMpRemaining").innerHTML = potionMp;
+    $("#mainText").prepend("your thief stole a mana potion!<br><br>");
+  }else{
+    bomb++;
+    document.getElementById("bombRemaining").innerHTML = bomb;
+    $("#mainText").prepend("your thief stole a bomb!<br><br>");
+  }
+  x -= mAtk;
+  window.x = x;
+  document. getElementById(y).innerHTML = x;
+  enStagger ++;
+  console.log(enStagger);
+  document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+  $("#mainText").prepend("Your ranger stikes a devastating blow for "+mAtk+" damage!<br><br>");
 }
 
 function headShot(x,y,w,z){
+  var hSAtk = Math.floor(Math.random()*15);
+  x -= hSAtk;
+  window.x = x;
+  document. getElementById(y).innerHTML = x;
+  enStagger +=8;
+  console.log(enStagger);
+  document.getElementById("warCurrentHp").innerHTML = x;
+  $("#mainText").prepend("Your ranger stikes a devastating blow for "+hSAtk+" damage!<br><br>");
+}
+function eviscerate(x,y,w,z){
+  var eAtk = Math.floor(Math.random()*18);
+  if(eAtk>=17){
+    x = 0;
+    window.x = x;
+    document.getElementById(y).innerHTML = x;
+    $("#mainText").prepend("Your assassin strikes a vital point!");
+  }else{
+      x-= eAtk;
+      window.x = x;
+      document.getElementById(y).innerHTML = x;
+      $("#mainText").prepend("Your assassin deals "+eAtk+" damage<br><br>");
+  }
 
 }
+/*-----------------------------------------------------------------------------*/
+function retaliation(){
+  console.log("en0= "+en0);
+  console.log("en1= "+en1);
+  console.log("en2= "+en2);
+  console.log("retaliation triggers");
+  var retTarget = Math.floor(Math.random()*4);
+  var staggerCheck = Math.floor(Math.random()*8+1);
+  var attack = Math.floor(Math.random()*5+7);
+  if(en0 === true){
+    console.log("en0triggers");
+    if(staggerCheck < enStagger){
+      console.log("enemyStaggered");
+      enStagger -=8;
+      en0 = false;
+      console.log(en0);
+      $("#mainText").prepend("your foe is staggered!<br><br>");
+    }else{
+      console.log("enemynotstaggered");
+      if(retTarget === 0){
+        warCurrentHp -=attack;
+        document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+        warCurrentStagger++;
+        $("#mainText").prepend("your warrior was struck for " +attack+ " damage!<br><br>");
+        en0 = false;
+        console.log(en0);
+      }else if(retTarget ===1){
+        wizCurrentHp -=attack;
+        document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
+        wizCurrentStagger++;
+        $("#mainText").prepend("your wizard was struck for " +attack+ " damage!<br><br>");
+        en0 = false;
+        console.log(en0);
+      }else if(retTarget ===3){
+        rogCurrentHp -=attack;
+        document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
+        rogCurrentStagger++;
+        $("#mainText").prepend("your rogue was struck for " +attack+ " damage!<br><br>");
+        en0 = false;
+        console.log(en0);
+      }
+    }
 
+  }else if (en1 ===true){
+    console.log("en1triggers");
+    if(staggerCheck < enStagger){
+      enStagger -=8;
+      en1 = false;
+      $("#mainText").prepend("your foe is staggered!<br><br>");
+    }else{
+      if(retTarget === 0){
+        warCurrentHp -=attack;
+        document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+        warCurrentStagger++;
+        $("#mainText").prepend("your warrior was struck for " +attack+ " damage!<br><br>");
+        en1 = false;
+      }else if(retTarget ===1){
+        wizCurrentHp -=attack;
+        document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
+        wizCurrentStagger++;
+        $("#mainText").prepend("your wizard was struck for " +attack+ " damage!<br><br>");
+        en1 = false;
+      }else if(retTarget ===3){
+        rogCurrentHp -=attack;
+        document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
+        rogCurrentStagger++;
+        $("#mainText").prepend("your rogue was struck for " +attack+ " damage!<br><br>");
+        en1 = false;
+      }
+
+
+  }}else if (en2 === true){
+    console.log("en1triggers");
+    if(staggerCheck < enStagger){
+      enStagger -=8;
+      en2 = false;
+    }else{
+      if(retTarget === 0){
+        warCurrentHp -=attack;
+        document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
+        warCurrentStagger++;
+        $("#mainText").prepend("your warrior was struck for " +attack+ " damage!<br><br>");
+        en2 = false;
+
+      }else if(retTarget ===1){
+        wizCurrentHp -=attack;
+        document.getElementById("wizCurrentHp").innerHTML = wizCurrentHp;
+        wizCurrentStagger++;
+        $("#mainText").prepend("your wizard was struck for " +attack+ " damage!<br><br>");
+        en2 = false;
+
+      }else if(retTarget ===3){
+        rogCurrentHp -=attack;
+        document.getElementById("rogCurrentHp").innerHTML = rogCurrentHp;
+        rogCurrentStagger++;
+        $("#mainText").prepend("your rogue was struck for " +attack+ " damage!<br><br>");
+        en2 = false;
+}}}
+  if(en0 === false && en1 === false && en2 === false){
+    if(en0CurrentHp > 0){
+      en0 = true;
+    }
+    if(en1CurrentHp > 0){
+      en1 = true;
+    }
+    if(en2CurrentHp > 0){
+      en2 = true;
+    }
+  $("#mainText").prepend("Your foes are rallying!<br><br>");
+  }
+
+
+
+  // if(warChosen===false&&wizChosen===false&&rogChosen===false){
+  //   if(warCurrentHp>0){
+  //     warChosen=true;
+  //   }
+  //   if(wizChosen>0){
+  //     wizChosen=true;
+  //   }
+  //   if(rogChosen>0){
+  //     rogChosen=true;
+  //   }
+  //
+  //   if(warChosen===false){
+  //     $(".war").hide(".war");
+  //   }else{
+  //     $(".war").show(".war");
+  //   }
+  //
+  //   if(wizChosen===false){
+  //     $(".wiz").hide(".wiz");
+  //   }else{
+  //     $(".wiz").show(".wiz");
+  //   }
+  //
+  //   if(rogChosen===false){
+  //     $(".rog").hide(".rog");
+  //   }else{
+  //     $(".rog").show(".rog");
+  //   }
+  // }
+}
 
 function closeTargets(){
   document.getElementById("enTop").style.display = "none";
