@@ -1,6 +1,11 @@
 
 /*variables--------------------------------------------------------------------*/
 /*variables---Inventory--------------------------------------------------------*/
+var inventory = {
+  potionHp : 5,
+  potionMp : 5,
+  bomb : 3,
+};
 var x;
 var y;
 var w;
@@ -15,6 +20,17 @@ var retTarget;
 
 /*variables---Characters-------------------------------------------------------*/
 /*ChosenWarrior----------------------------------------------------------------*/
+var warrior = {
+  chosen : false,
+  strength : 0,
+  dexterity : 0,
+  intelligence : 0,
+  currentHp : 0,
+  maxHp : 0,
+  currentMp : 0,
+  maxMp : 0,
+  stagger : 0
+};
 var warChosen = false;
 var warCurrentHp;
 var warMaxHp;
@@ -26,6 +42,17 @@ var warStr;
 var warDex;
 var warInt;
 /*ChosenWizard-----------------------------------------------------------------*/
+var wizard = {
+  chosen : false,
+  strength : 0,
+  dexterity : 0,
+  intelligence : 0,
+  currentHp : 0,
+  maxHp : 0,
+  currentMp : 0,
+  maxMp : 0,
+  stagger : 0
+};
 var wizChosen = false;
 var wizCurrentHp;
 var wizMaxHp;
@@ -37,6 +64,17 @@ var wizStr;
 var wizDex;
 var wizInt;
 /*ChosenRogue------------------------------------------------------------------*/
+var rogue = {
+  chosen : false,
+  strength : 0,
+  dexterity : 0,
+  intelligence : 0,
+  currentHp : 0,
+  maxHp : 0,
+  currentMp : 0,
+  maxMp : 0,
+  stagger : 0
+};
 var rogChosen = false;
 var rogCurrentHp;
 var rogMaxHp;
@@ -51,6 +89,7 @@ var rogInt;
 
 /*variables---Enemies----------------------------------------------------------*/
 var enemies = ["assets/images/bandit.jpg", "assets/images/banditLeader.jpg", "assets/images/wolf.jpg"];
+enStagger = 0;
 /*en0--------------------------------------------------------------------------*/
 var en0CurrentHp = 0;
 var en0MaxHp;
@@ -71,7 +110,7 @@ var en2MaxMp;
 var en2 = true;
 
 /*variables---Misc-------------------------------------------------------------*/
-enStagger = 0;
+
 
 
 document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
@@ -112,7 +151,8 @@ document.getElementById("barbarianChoice").onclick =function(){
   document.getElementById("warMaxHp").innerHTML = warMaxHp;
   document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
   document.getElementById("warMaxMp").innerHTML = warMaxMp;
-  document.getElementById("rage").style.display = "flex";
+  // document.getElementById("rage").style.display = "flex";
+  $("#warSpecial").html("<button id='rage' class='war actions special'>Inspire</button>");
   document.getElementById("BtnWarrior").style.display = "none";
   modalWar.style.display = "none";
   $("#mainText").prepend("A barbarian has joined your cause!<br><br>");
@@ -522,6 +562,7 @@ $("#allyTop").click(function(){
   retaliation();
   targetChoice();
 });
+$("#allyTop").hover(function(){},function(){});
 $("#allyMid").click(function(){
   target = 1;
   closeTargets();
@@ -1107,9 +1148,6 @@ function retaliation(){
     }
   $("#mainText").prepend("Your foes are rallying!<br><br>");
   }
-
-
-
   // if(warChosen===false&&wizChosen===false&&rogChosen===false){
   //   if(warCurrentHp>0){
   //     warChosen=true;
