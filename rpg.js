@@ -10,9 +10,6 @@ var x;
 var y;
 var w;
 var z;
-// var potionHp = 5;
-// var potionMp = 5;
-// var bomb = 5;
 /*variables---triggers?--------------------------------------------------------*/
 var action;
 var target;
@@ -25,9 +22,9 @@ var warrior = {
   strength : 0,
   dexterity : 0,
   intelligence : 0,
-  currentHp : 0,
+  Hp : 0,
   maxHp : 0,
-  currentMp : 0,
+  Mp : 0,
   maxMp : 0,
   stagger : 0
 };
@@ -47,9 +44,9 @@ var wizard = {
   strength : 0,
   dexterity : 0,
   intelligence : 0,
-  currentHp : 0,
+  Hp : 0,
   maxHp : 0,
-  currentMp : 0,
+  Mp : 0,
   maxMp : 0,
   stagger : 0
 };
@@ -69,9 +66,9 @@ var rogue = {
   strength : 0,
   dexterity : 0,
   intelligence : 0,
-  currentHp : 0,
+  Hp : 0,
   maxHp : 0,
-  currentMp : 0,
+  Mp : 0,
   maxMp : 0,
   stagger : 0
 };
@@ -143,14 +140,14 @@ window.onclick = function(event) {
 /*WarriorSelect----------------------------------------------------------------*/
 document.getElementById("barbarianChoice").onclick =function(){
   document.getElementById("charImage1").src ="assets/images/barbarian.jpg";
-  warMaxHp = 200;
-  warCurrentHp = 200;
-  warMaxMp = 25;
-  warCurrentMp = 25;
-  document.getElementById("warCurrentHp").innerHTML = warCurrentHp;
-  document.getElementById("warMaxHp").innerHTML = warMaxHp;
-  document.getElementById("warCurrentMp").innerHTML = warCurrentMp;
-  document.getElementById("warMaxMp").innerHTML = warMaxMp;
+  warrior.MaxHp = 200;
+  warrior.Hp = 200;
+  warrior.MaxMp = 25;
+  warrior.Mp = 25;
+  document.getElementById("warCurrentHp").innerHTML = warrior.Hp;
+  document.getElementById("warMaxHp").innerHTML = warrior.MaxHp;
+  document.getElementById("warCurrentMp").innerHTML = warrior.Mp;
+  document.getElementById("warMaxMp").innerHTML = warrior.Mp;
   // document.getElementById("rage").style.display = "flex";
   $("#warSpecial").html("<button id='rage' class='war actions special'>Inspire</button>");
   document.getElementById("BtnWarrior").style.display = "none";
