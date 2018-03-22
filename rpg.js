@@ -1,4 +1,4 @@
-
+console.log("hello");
 /*variables--------------------------------------------------------------------*/
 /*variables---Inventory--------------------------------------------------------*/
 var inventory = {
@@ -112,9 +112,10 @@ var en2 = true;
 /*variables---Misc-------------------------------------------------------------*/
 
 
-
-document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
-document.getElementById("potionMpRemaining").innerHTML = "X " + potionMp;
+$("#potionHpRemaining").html("X "+ potionHp);
+$("#potionMpRemaining").html("X "+ potionMp);
+// document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
+// document.getElementById("potionMpRemaining").innerHTML = "X " + potionMp;
 document.getElementById("bombRemaining").innerHTML = "X " + bomb;
 
 
