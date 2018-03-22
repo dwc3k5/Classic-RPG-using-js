@@ -114,9 +114,8 @@ var en2 = true;
 
 $("#potionHpRemaining").html("X "+ potionHp);
 $("#potionMpRemaining").html("X "+ potionMp);
-// document.getElementById("potionHpRemaining").innerHTML = "X " + potionHp;
-// document.getElementById("potionMpRemaining").innerHTML = "X " + potionMp;
-document.getElementById("bombRemaining").innerHTML = "X " + bomb;
+$("#bombRemaining").html("X "+ bomb);
+
 
 
 /*Party creation --------------------------------------------------------------*/
