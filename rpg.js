@@ -10,9 +10,9 @@ var x;
 var y;
 var w;
 var z;
-var potionHp = 5;
-var potionMp = 5;
-var bomb = 5;
+// var potionHp = 5;
+// var potionMp = 5;
+// var bomb = 5;
 /*variables---triggers?--------------------------------------------------------*/
 var action;
 var target;
@@ -112,9 +112,9 @@ var en2 = true;
 /*variables---Misc-------------------------------------------------------------*/
 
 
-$("#potionHpRemaining").html("X "+ potionHp);
-$("#potionMpRemaining").html("X "+ potionMp);
-$("#bombRemaining").html("X "+ bomb);
+$("#potionHpRemaining").html("X "+ inventory.potionHp);
+$("#potionMpRemaining").html("X "+ inventory.potionMp);
+$("#bombRemaining").html("X "+ inventory.bomb);
 
 
 
